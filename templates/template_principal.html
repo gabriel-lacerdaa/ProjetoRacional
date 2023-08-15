@@ -19,27 +19,55 @@
     </div>
   </header>
 
+    <!-- Esse trecho de codigo serve para aparecer a mensagem de flash do flask -->
+  <!-- https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/  documentação da mensagem flash -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %} 
+        <ul id="messages" class="list-unstyled">
+        {% for message in messages %}
+            <li class="alert alert-success">{{ message }}</li>
+        {% endfor %}
+        </ul>
+        <script>
+            // Função para remover a mensagem de flash após alguns segundos
+            setTimeout(function() {
+                var messages = document.getElementById("messages");
+                if (messages) {
+                    messages.style.display = "none";
+                }
+            }, 5000); // 5000 milissegundos = 5 segundos
+        </script>
+    {% endif %}
+  {% endwith %}
+
+
   <div class="container-fluid">
     <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse vh-100">
         <div class="position-sticky pt-3 sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">
                 <span data-feather="home" class="align-text-bottom"></span>
-                Produtos
+                Produtos Final
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ url_for('allFrascos') }}">
                 <span data-feather="file" class="align-text-bottom"></span>
-                Em desevolvimento
+                Frascos
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="shopping-cart" class="align-text-bottom"></span>
-                Em desevolvimento
+                Fitas
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                Cliche
               </a>
             </li>
 
@@ -49,17 +77,11 @@
               <span data-feather="plus-circle" class="align-text-bottom"></span>
             </a>
           </h6> -->
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text" class="align-text-bottom"></span>
-                Em desevolvimento
-              </a>
-            </li>
         </div>
       </nav>
       
       
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4">
         {% block conteudo %}
 
         {% endblock %}
@@ -69,5 +91,6 @@
     </div>
   </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>   
 </body>
 </html>

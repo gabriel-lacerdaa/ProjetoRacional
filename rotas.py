@@ -1,17 +1,68 @@
-from flask import render_template, request, session, redirect, url_for
+from flask import render_template, request, session, redirect, url_for, send_from_directory, flash
 from app import app, db
-from model import Usuarios, Produtos
+from model import Usuarios, Produtos, Frascos
 from flask_bcrypt import check_password_hash
+from helpers import FormularioFrasco
 
 
 
+# @app.route('/')
+# def index():
+#     if ("user" in session) and (session["user"] is not None):
+#         produtos = Produtos.query.order_by(Produtos.id)
+#         return render_template("produtos.html", produtos=produtos, titulo='Produtos')
+#     else:
+#         return redirect(url_for('login', proxima=url_for('index')))
+
+
+#POr enquanto essa é a raiz
 @app.route('/')
-def index():
-    # if ("user" in session) and (session["user"] is not None):
-        produtos = Produtos.query.order_by(Produtos.id)
-        return render_template("produtos.html", produtos=produtos, titulo='Produtos')
-    # else:
-    #     return redirect(url_for('login', proxima=url_for('index')))
+def allFrascos():
+    frascos = Frascos.query.order_by(Frascos.id)
+    return render_template("frascos.html", frascos=frascos, titulo='Frascos')
+
+@app.route('/frascos/novo')
+def newFrasco():
+    formFrasco = FormularioFrasco()
+    return render_template('novo_frasco.html', titulo="Novo Frasco", form=formFrasco)
+
+
+@app.route('/frasco/novo/salvar', methods=['POST'])
+def salvarFrasco():
+    
+    frasco = Frascos.query.filter_by(nome=request.form["nome"]).first()
+    if frasco:
+        flash('Esse Frasco já esta cadastrado!')
+        return redirect(url_for('allFrascos'))
+    else:
+        form = FormularioFrasco(request.form)
+        if not form.validate_on_submit():
+            return redirect(url_for('newFrasco'))
+        
+        frasco_imagem = request.files['arquivo']
+        if frasco_imagem.filename != 'img_padrao.jpg' and frasco_imagem.filename != '':
+            imagem_binaria = frasco_imagem.read()
+            novo_frasco = Frascos(nome=form.nome.data, cor=form.cor.data, frasco_imagem=imagem_binaria)
+        else:
+            novo_frasco = Frascos(nome=form.nome.data, cor=form.cor.data) 
+        db.session.add(novo_frasco)
+        db.session.commit()
+        return redirect(url_for('allFrascos'))
+
+@app.run('/frascos/editar')
+def editarFrasco():
+    id = request.args.get(id)
+    frasco = Frascos.query.fielter_by(id=int(id)).first()
+    return render_template('editar_frasco.html', frasco=frasco)
+
+@app.run('/frascos/editar/salvar')
+def salvarEdicaoFrasco():
+    return redirect(url_for('allFrascos'))
+
+# @app.route('/frascos')
+# def allFrascos():
+#     frascos = Frascos.query.order_by(Frascos.id)
+#     return render_template("frascos.html", frascos=frascos, titulo='Frascos')
 
 @app.route('/login')
 def login():
@@ -71,4 +122,8 @@ def newProduct():
     db.session.add(produto)
     db.session.commit()
     return redirect(url_for('index'))
-    
+
+
+@app.route('/imagem/padrao')
+def imagemPadrao():
+    return send_from_directory('IMGs', 'img_padrao.jpg')

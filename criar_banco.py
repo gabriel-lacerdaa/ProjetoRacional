@@ -29,9 +29,29 @@ cursor.execute("""
 cursor.execute("""
                CREATE TABLE produtos (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                nome VARCHAR(100) NOT NULL, 
+                nome VARCHAR(100) NOT NULL,
+                cod_produto  varchar(20) NOT NULL, 
                 descricao VARCHAR(200) NOT NULL)
                """)
+
+cursor.execute("""                 
+    CREATE TABLE frascos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cor VARCHAR(50),
+    frasco_imagem BLOB
+)
+""")
+
+frascos = [
+    ("Frasco exemplo 1", "preto"),
+    ("Frasco exemplo 2", "rosa"),
+    ("Frasco exemplo 3", "vermelho")
+]
+
+for frasco in frascos:
+    sql_insert = "INSERT INTO frascos (nome, cor) values (%s, %s)"
+    cursor.execute(sql_insert, frasco)
 
 
 usuario = ("gabriel", generate_password_hash("senha").decode('utf-8'))
@@ -39,15 +59,15 @@ sql_insert = "INSERT INTO usuarios (nome, senha) values (%s,  %s)"
 cursor.execute(sql_insert, usuario)
 
 produtos = [
-    ("produto1", "descricao do produto1"),
-    ("produto2", "descricao do produto2"),
-    ("produto3", "descricao do produto3"),
-    ("produto4", "descricao do produto4"),
-    ("produto5", "descricao do produto5")
+    ("produto1", '001', "descricao do produto1"),
+    ("produto2", '002', "descricao do produto2"),
+    ("produto3", '003', "descricao do produto3"),
+    ("produto4", '004', "descricao do produto4"),
+    ("produto5", '005', "descricao do produto5")
 ]
 
 for produto in produtos:
-    sql_insert = "INSERT INTO produtos (nome, descricao) values (%s, %s)"
+    sql_insert = "INSERT INTO produtos (nome, cod_produto, descricao) values (%s, %s, %s)"
     cursor.execute(sql_insert, produto)
 
 

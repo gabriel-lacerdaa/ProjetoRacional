@@ -1,0 +1,35 @@
+{% extends 'template_principal.html' %}
+
+{% block conteudo %}
+    <h1>{{ titulo }}</h1>
+    <form action="{{ url_for('salvarEdicaoFrasco') }}" method="post">
+
+        <figure class="img thumbnail col-md-4 formularioImagem">
+            <img class="img-fluid img-padrao" src="data:image/jpeg;base64,{{ frasco.frasco_imagem|b64encode }}">
+            <figcaption>
+              <label class="fileContainer">
+                Mudar Capa
+                <input class="file-input" type="file" name="arquivo" accept=".jpg">
+              </label>
+            </figcaption>
+          </figure>
+
+        <input type="hidden" name="id" value="{{ produto.id }}">
+        <div  class="form-group">
+            <div  class="col-md-5">
+                <label for="produto">Produto</label>
+                <input type="text" class="form-control" name="produto" id="produto" value="{{ produto.nome }}">
+            </div>
+        </div>
+        <div  class="form-group">
+            <div  class="col-md-5">
+                <label for="descricao">Descrição</label>
+                <input type="text" class="form-control" name="descricao" id="descricao" value="{{ produto.descricao }}">
+            </div>
+        </div>
+        <div class="form-group buttons">
+            <a href="{{ url_for('allFrascos') }}" class="btn btn-primary" type="button" >Voltar</a>
+            <button type="submit" class="btn btn-success" >Salvar</button>
+        </div>
+    </form>
+{% endblock %}
