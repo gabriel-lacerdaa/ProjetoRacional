@@ -21,7 +21,7 @@
           <td>{{ frasco.cor }}</td>
           <td>
             <a href="{{ url_for('editarFrasco', id=frasco.id) }}" type="button" class="btn btn-outline-primary">Editar</a>
-            <!-- <a href="{{ url_for('deletarFrasco', id=frasco.id) }}" type="button" class="btn btn-outline-danger">Deletar</a> -->
+            <a href="{{ url_for('deletarFrasco', id=frasco.id) }}" type="button" class="btn btn-outline-danger">Deletar</a>
           </td>
         </tr>
         {% endfor %}

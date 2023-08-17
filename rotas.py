@@ -3,8 +3,7 @@ from app import app, db
 from model import Usuarios, Produtos, Frascos
 from flask_bcrypt import check_password_hash
 from helpers import FormularioFrasco
-
-
+import base64
 
 # @app.route('/')
 # def index():
@@ -21,15 +20,16 @@ def allFrascos():
     frascos = Frascos.query.order_by(Frascos.id)
     return render_template("frascos.html", frascos=frascos, titulo='Frascos')
 
+#Rota para carregar formulario para cadastrar novo Frasco
 @app.route('/frascos/novo')
 def newFrasco():
     formFrasco = FormularioFrasco()
     return render_template('novo_frasco.html', titulo="Novo Frasco", form=formFrasco)
 
 
+#Rota para salvar novo frasco
 @app.route('/frasco/novo/salvar', methods=['POST'])
 def salvarFrasco():
-    
     frasco = Frascos.query.filter_by(nome=request.form["nome"]).first()
     if frasco:
         flash('Esse Frasco já esta cadastrado!')
@@ -42,6 +42,9 @@ def salvarFrasco():
         frasco_imagem = request.files['arquivo']
         if frasco_imagem.filename != 'img_padrao.jpg' and frasco_imagem.filename != '':
             imagem_binaria = frasco_imagem.read()
+            if len(imagem_binaria) > 65000:
+                flash('Por favor, envie imagens com tamanho inferior a 64 KB. A imagem atual é muito grande.')
+                return redirect(url_for('allFrascos'))
             novo_frasco = Frascos(nome=form.nome.data, cor=form.cor.data, frasco_imagem=imagem_binaria)
         else:
             novo_frasco = Frascos(nome=form.nome.data, cor=form.cor.data) 
@@ -49,14 +52,36 @@ def salvarFrasco():
         db.session.commit()
         return redirect(url_for('allFrascos'))
 
-@app.run('/frascos/editar')
-def editarFrasco():
-    id = request.args.get(id)
-    frasco = Frascos.query.fielter_by(id=int(id)).first()
-    return render_template('editar_frasco.html', frasco=frasco)
 
-@app.run('/frascos/editar/salvar')
+#Rota para mostrar formulario para editar o cadastro do frasco
+@app.route('/frascos/editar')
+def editarFrasco():
+    id = request.args.get("id")
+    frasco = Frascos.query.filter_by(id=id).first()
+    form = FormularioFrasco()
+    form.process(obj=frasco)
+    if frasco.frasco_imagem:
+        img = base64.b64encode(frasco.frasco_imagem).decode('utf-8')
+    else:
+        img = None
+    
+    return render_template('editar_frasco.html', titulo='Editar Frasco', form=form, id=frasco.id, imagem=img, img_padrao=url_for('imagemPadrao'))
+
+#rota para salvar frasco editado
+@app.route('/frascos/editar/salvar', methods=['POST'])
 def salvarEdicaoFrasco():
+    frasco = Frascos.query.filter_by(id=request.form['id']).first()
+    frasco.nome = request.form['nome']
+    frasco.cor = request.form['cor']
+    frasco_imagem = request.files['arquivo']
+    if frasco_imagem.filename != 'img_padrao.jpg' and frasco_imagem.filename != '':
+        imagem_binaria = frasco_imagem.read()
+        if len(imagem_binaria) > 65000:
+            flash('Por favor, envie imagens com tamanho inferior a 64 KB. A imagem atual é muito grande.')
+            return redirect(url_for('allFrascos'))
+        frasco.frasco_imagem = imagem_binaria
+    db.session.add(frasco)
+    db.session.commit()
     return redirect(url_for('allFrascos'))
 
 # @app.route('/frascos')
@@ -122,6 +147,15 @@ def newProduct():
     db.session.add(produto)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.route('/frascos/deletar')
+def deletarFrasco():
+    id = request.args.get("id")
+    Frascos.query.filter_by(id=id).delete()
+    flash(f'Frasco deletado com sucesso!')
+    db.session.commit()
+    return redirect(url_for('allFrascos'))
 
 
 @app.route('/imagem/padrao')
