@@ -2,9 +2,9 @@
 {% block conteudo %}
 <div class="container">
   <h1>{{ titulo }}</h1>
-    <form method="post" action="{{ url_for('salvarFrasco') }}" class="conteiner formularioFrasco" enctype="multipart/form-data">
+    <form method="post" action="{{ url_for('frascos.salvarFrasco') }}" class="conteiner formularioFrasco" enctype="multipart/form-data">
         <figure class="img thumbnail col-md-4 formularioImagem">
-            <img class="img-fluid img-padrao" src="{{ url_for('imagemPadrao') }}">
+            <img class="img-fluid img-padrao" src="{{ url_for('genericas.imagemPadrao') }}">
             <figcaption>
               <label class="fileContainer">
                 Mudar Capa
@@ -25,9 +25,9 @@
             </div>
             <div style="margin-top: 10px;">
               {{ form.salvar(class="btn btn-primary") }}
-              <a class="btn btn-danger" href="{{ url_for('allFrascos') }}">Voltar</a>
+              <a class="btn btn-danger" href="{{ url_for('frascos.allFrascos') }}">Voltar</a>
             </div>
-          </fieldset>
+        </fieldset>
     </form>
 </div>
 
