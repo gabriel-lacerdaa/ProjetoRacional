@@ -5,6 +5,7 @@ from frascos.frascos import frascos_blueprint
 from produtos.produtos import produtos_blueprint
 from login.login import login_blueprint
 from genericas.routesGenerics import rotasGenericas_blueprint
+from fitas.fitas import fitas_blueprint
 from extensions import db
 
 app = Flask(__name__)
@@ -16,6 +17,7 @@ app.register_blueprint(frascos_blueprint)
 app.register_blueprint(produtos_blueprint)
 app.register_blueprint(login_blueprint)
 app.register_blueprint(rotasGenericas_blueprint)
+app.register_blueprint(fitas_blueprint)
 
 if __name__ == "__main__":
     app.run(host="localhost", debug=True)

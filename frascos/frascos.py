@@ -31,7 +31,7 @@ def salvarFrasco():
     else:
         form = FormularioFrasco(request.form)
         if not form.validate_on_submit():
-            return redirect(url_for('newFrasco'))
+            return redirect(url_for('frascos.newFrasco'))
         
         frasco_imagem = request.files['arquivo']
         if frasco_imagem.filename != 'img_padrao.jpg' and frasco_imagem.filename != '':

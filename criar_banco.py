@@ -13,11 +13,11 @@ except:
 
 cursor = conn.cursor()
 
-cursor.execute('DROP DATABASE IF EXISTS `EMPRESA`;')
+cursor.execute('DROP DATABASE IF EXISTS `Racional`;')
 
-cursor.execute('CREATE DATABASE `EMPRESA`')
+cursor.execute('CREATE DATABASE `Racional`')
 
-cursor.execute('USE `EMPRESA`')
+cursor.execute('USE `Racional`')
 
 cursor.execute("""
                CREATE TABLE usuarios (
@@ -32,6 +32,14 @@ cursor.execute("""
                 nome VARCHAR(100) NOT NULL,
                 cod_produto  varchar(20) NOT NULL, 
                 descricao VARCHAR(200) NOT NULL)
+               """)
+
+cursor.execute("""
+               CREATE TABLE fitas (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                codigo_interno VARCHAR(255) not null,
+                descricao VARCHAR(255) not null,
+                tamanho_corte_mm FLOAT);
                """)
 
 cursor.execute("""                 
@@ -71,12 +79,12 @@ for produto in produtos:
     cursor.execute(sql_insert, produto)
 
 
-cursor.execute("SELECT * FROM EMPRESA.usuarios")
+cursor.execute("SELECT * FROM Racional.usuarios")
 print("-"*10+' Usuarios '+'-'*10)
 for user in cursor.fetchall():
     print(user[1])
 
-cursor.execute("SELECT * FROM EMPRESA.produtos")
+cursor.execute("SELECT * FROM Racional.produtos")
 print("-"*10+' Produtos '+'-'*10)
 for produto in cursor.fetchall():
     print(produto[1], produto[2])
