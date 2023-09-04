@@ -22,8 +22,8 @@
         <td>{{ fita.descricao }}</td>
         <td>{{ fita.tamanho_corte_mm }}</td>
         <td>
-          <a href="#" type="button" class="btn btn-outline-primary">Editar</a>
-          <a href="#" type="button" class="btn btn-outline-danger">Deletar</a>
+          <a href="{{ url_for('fitas.editarFita', id=fita.id) }}" type="button" class="btn btn-outline-primary">Editar</a>
+          <a href="{{ url_for('fitas.deletarFita', id=fita.id) }}" type="button" class="btn btn-outline-danger">Deletar</a>
         </td>
       </tr>
       {% endfor %}

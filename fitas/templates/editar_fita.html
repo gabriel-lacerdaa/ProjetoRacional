@@ -1,0 +1,27 @@
+{% extends 'template_principal.html' %}
+
+{% block conteudo %}
+<h1>{{ titulo }}</h1>
+    <form action="{{ url_for('fitas.salvarEdicao') }}" method="post">
+        <fieldset>
+            {{ form.csrf_token() }}
+            <input type="hidden" name="id" value="{{ id }}">
+            <div class="form-group inputBox">
+                {{ form.codigo_interno.label(class="form-label") }}
+                {{ form.codigo_interno(class="form-control") }}
+            </div>
+            <div class="form-group inputBox">
+                {{ form.descricao.label(class="form-label") }}
+                {{ form.descricao(class="form-control") }}
+            </div>
+            <div class="form-group inputBox">
+                {{ form.tamanho_corte_mm.label(class="form-label") }}
+                {{ form.tamanho_corte_mm(class="form-control") }}
+            </div>
+            <div style="margin-top: 10px;">
+                {{ form.salvar(class="btn btn-success") }}
+                <a class="btn btn-primary" href="{{ url_for('fitas.allFitas') }}">Voltar</a>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
