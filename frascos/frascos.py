@@ -1,12 +1,10 @@
-from flask import render_template, redirect, flash, request, url_for, Blueprint
+from flask import render_template, redirect, flash, request, url_for, Blueprint, session
 from models.model import Frascos
 from helpers import FormularioFrasco
 import base64
 from extensions import db
 
 frascos_blueprint = Blueprint("frascos", __name__, template_folder="templates")
-
-
 
 #POr enquanto essa é a raiz
 @frascos_blueprint.route('/')

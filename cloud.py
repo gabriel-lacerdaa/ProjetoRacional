@@ -1,33 +1,39 @@
 import mysql.connector
+import os
+from dotenv import load_dotenv
+load_dotenv()
+import MySQLdb
 from flask_bcrypt import generate_password_hash
 
 print("Conectando...")
 try:
-    conn = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='123456789'
+    conn = MySQLdb.connect(
+    host= os.getenv("DB_HOST"),
+    user=os.getenv("DB_USERNAME"),
+    passwd= os.getenv("DB_PASSWORD"),
+    db= os.getenv("DB_NAME"),
+    autocommit = True,
+    ssl_mode = "VERIFY_IDENTITY",
+    ssl      = {
+        "ca": "cert.pem"
+    }
     )
 except:
     print("Não foi possivel fazer a conexão")
 
 cursor = conn.cursor()
 
-cursor.execute('DROP DATABASE IF EXISTS `Racional`;')
-
-cursor.execute('CREATE DATABASE `Racional`')
-
-cursor.execute('USE `Racional`')
+cursor.execute('USE racionaldb')
 
 cursor.execute("""
-               CREATE TABLE usuarios (
+               CREATE TABLE if not EXISTS usuarios (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 nome VARCHAR(100) NOT NULL, 
                 senha VARCHAR(100) NOT NULL)
                """)
 
 cursor.execute("""
-               CREATE TABLE produtos (
+               CREATE TABLE if not EXISTS produtos (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 nome VARCHAR(100) NOT NULL,
                 cod_produto  varchar(20) NOT NULL, 
@@ -35,7 +41,7 @@ cursor.execute("""
                """)
 
 cursor.execute("""
-               CREATE TABLE fitas (
+               CREATE TABLE if not EXISTS fitas (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 codigo_interno VARCHAR(255) not null,
                 descricao VARCHAR(255) not null,
@@ -43,7 +49,7 @@ cursor.execute("""
                """)
 
 cursor.execute("""                 
-    CREATE TABLE frascos (
+    CREATE TABLE if not EXISTS frascos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     cor VARCHAR(50),
@@ -79,12 +85,12 @@ for produto in produtos:
     cursor.execute(sql_insert, produto)
 
 
-cursor.execute("SELECT * FROM Racional.usuarios")
+cursor.execute("SELECT * FROM racionaldb.usuarios")
 print("-"*10+' Usuarios '+'-'*10)
 for user in cursor.fetchall():
     print(user[1])
 
-cursor.execute("SELECT * FROM Racional.produtos")
+cursor.execute("SELECT * FROM racionaldb.produtos")
 print("-"*10+' Produtos '+'-'*10)
 for produto in cursor.fetchall():
     print(produto[1], produto[2])

@@ -1,2 +1,4 @@
 __pycache__/
 .env
+cloud.py/
+cert.pem
