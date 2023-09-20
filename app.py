@@ -20,4 +20,4 @@ app.register_blueprint(rotasGenericas_blueprint)
 app.register_blueprint(fitas_blueprint)
 
 if __name__ == "__main__":
-    app.run(host="localhost", debug=True)
+    app.run()
