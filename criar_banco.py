@@ -51,6 +51,14 @@ cursor.execute("""
 )
 """)
 
+cursor.execute("""                 
+    CREATE TABLE if not EXISTS cliches (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(255) NOT NULL,
+    codigo_interno VARCHAR(255) NOT NULL
+)
+""")
+
 # frascos = [
 #     ("Frasco exemplo 1", "preto"),
 #     ("Frasco exemplo 2", "rosa"),

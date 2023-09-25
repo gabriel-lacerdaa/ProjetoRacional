@@ -1,0 +1,24 @@
+{% extends 'template_principal.html' %}
+
+{% block conteudo %}
+<div class="container">
+    <h1>{{ titulo }}</h1>
+      <form method="post" action="{{ url_for('cliches.salvarCliche') }}" class="conteiner formularioFrasco" enctype="multipart/form-data">
+          <fieldset>
+            {{ form.csrf_token() }}
+              <div class="form-group inputBox">
+                {{ form.codigo_interno.label(class="form-label") }}
+                {{ form.codigo_interno(class="form-control") }}
+              </div>
+              <div class="form-group inputBox">
+                {{ form.descricao.label(class="form-label") }}
+                {{ form.descricao(class="form-control") }}
+              </div>
+              <div style="margin-top: 10px;">
+                {{ form.salvar(class="btn btn-primary") }}
+                <a class="btn btn-danger" href="{{ url_for('cliches.allCliches') }}">Voltar</a>
+              </div>
+          </fieldset>
+      </form>
+  </div>
+{% endblock %}
