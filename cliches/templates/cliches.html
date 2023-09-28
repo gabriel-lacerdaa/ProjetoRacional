@@ -19,10 +19,8 @@
                     <td>{{ cliche.codigo_interno }}</td>
                     <td>{{ cliche.descricao }}</td>
                     <td>
-                        <a href="#" type="button" class="btn btn-outline-primary">Editar</a>
-                    </td>
-                    <td>
-                        <a href="#" type="button" class="btn btn-outline-danger">Deletar</a>
+                        <a href="{{ url_for('cliches.editarCliche', id=cliche.id) }}" type="button" class="btn btn-outline-primary">Editar</a>
+                        <a href="{{ url_for('cliches.deletarCliche', id=cliche.id) }}" type="button" class="btn btn-outline-danger">Deletar</a>
                     </td>
                 </tr>
                 {% endfor %}

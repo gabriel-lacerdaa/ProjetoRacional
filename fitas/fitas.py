@@ -9,7 +9,6 @@ fitas_blueprint = Blueprint("fitas", __name__, template_folder="templates")
 @fitas_blueprint.route('/fitas')
 def allFitas():
     fitas = Fitas.query.order_by(Fitas.id)
-    print(request.args.get('erro'))
     return render_template('fitas.html', fitas=fitas, titulo = "Fitas", erro=request.args.get('erro'))
 
 @fitas_blueprint.route('/fitas/nova_fita')

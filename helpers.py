@@ -8,8 +8,8 @@ class FormularioFrasco(FlaskForm):
 
 class FormularioFita(FlaskForm):
     codigo_interno = StringField('Cód Interno',  [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
-    descricao = StringField('Descrição',  [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
-    tamanho_corte_mm = FloatField('Tamanho/Corte',  [validators.DataRequired(), validators.NumberRange(min=0.1, max=10000.0)], render_kw={'autocomplete': 'off'})
+    descricao = StringField('Descrição',  [validators.DataRequired(), validators.Length(min=4, max=255)], render_kw={'autocomplete': 'off'})
+    tamanho_corte_mm = FloatField('Tamanho/Corte(mm)',  [validators.DataRequired(), validators.NumberRange(min=0.1, max=10000.0)], render_kw={'autocomplete': 'off'})
     salvar = SubmitField('Salvar')
 
 class FormularioCliche(FlaskForm):

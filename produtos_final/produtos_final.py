@@ -46,19 +46,19 @@ def novoProduto():
     form.frasco_id.choices = listaParaSelectPeloNome(frascos, "--Escolha um Frasco--")
     form.fita_id.choices = listaParaSelectPelaDescricao(fitas, "--Escolha uma Fita--")
     form.cliche_id.choices = listaParaSelectPelaDescricao(cliches, "--Escolha um Cliche--")
-    return render_template('produto_novo.html', form=form, titulo="Novo Produto")
+    return render_template('produto_novo.html', form=form, titulo="Novo Produto", erro=request.args.get('erro'))
 
 @produtos_blueprint.route('/produto/novo/salvar', methods=['POST'])
 def newProduct():
     form = FormularioProdutoFinal(request.form)
     produto = Produtos.query.filter_by(codigo=form.codigo.data).first()
-    print(produto)
     if produto:
         flash(f"O Produto com o codigo {produto.codigo} já está cadastrado")
         return redirect(url_for('produtos.novoProduto'))
     if form.fita_id.data == 0 or form.frasco_id.data == 0 or form.cliche_id.data == 0:
         flash('É necessário informar um Frasco, Fita e Clichê para inserir um novo Produto!!')
-        return redirect(url_for('produtos.novoProduto'))
+        erro=True
+        return redirect(url_for('produtos.novoProduto', erro=erro))
     produto = Produtos(nome=form.nome.data, codigo=form.codigo.data, fita_id=form.fita_id.data, 
                        frasco_id=form.frasco_id.data, cliche_id=form.cliche_id.data)
     db.session.add(produto)
