@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField, IntegerField, FloatField
-
+from wtforms import StringField, validators, SubmitField, IntegerField, FloatField, SelectField
 
 class FormularioFrasco(FlaskForm):
     nome = StringField('Nome', [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
@@ -18,9 +17,12 @@ class FormularioCliche(FlaskForm):
     descricao = StringField('Descrição',  [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
     salvar = SubmitField('Salvar')
 
-# class FormularioProdutoFinal(FlaskForm):
-#     codigo = StringField('Codigo',  [validators.DataRequired(), validators.Length(min=5, max=50)], render_kw={'autocomplete': 'off'})
-#     nome = StringField('Nome', [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
-#     frasco_id
-#     fita_id
-#     cliche_id
+class FormularioProdutoFinal(FlaskForm):
+    codigo = StringField('Codigo',  [validators.DataRequired(), validators.Length(min=1, max=50)], render_kw={'autocomplete': 'off'})
+    nome = StringField('Nome', [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
+    # "coerce=int" para garantir que o valor seja um número inteiro
+    frasco_id = SelectField('Frasco', [validators.DataRequired()], coerce=int)  
+    # Campo de seleção para fita_id
+    fita_id = SelectField('Fita', [validators.DataRequired()], coerce=int)
+    # Campo de seleção para cliche_id
+    cliche_id = SelectField('Clichê', [validators.DataRequired()], coerce=int)

@@ -11,10 +11,14 @@ class Usuarios(db.Model):
 
 
 class Produtos(db.Model):
-    __tablename__ = 'produtos'
+    __tablename__ = 'produtos_final'
     id = db.Column(db.Integer, primary_key=True)
+    codigo = db.Column(db.String(50))
     nome = db.Column(db.String(100), nullable=False)
-    descricao = db.Column(db.String(200), nullable=False)
+    frasco_id = db.Column(db.Integer, nullable=False)
+    fita_id = db.Column(db.Integer, nullable=False)
+    cliche_id = db.Column(db.Integer, nullable=False)
+
 
 
 class Frascos(db.Model):

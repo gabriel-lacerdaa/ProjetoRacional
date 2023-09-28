@@ -2,7 +2,7 @@ from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from flask_bcrypt import Bcrypt
 from frascos.frascos import frascos_blueprint
-from produtos.produtos import produtos_blueprint
+from produtos_final.produtos_final import produtos_blueprint
 from login.login import login_blueprint
 from cliches.cliches import cliches_blueprint
 from genericas.routesGenerics import rotasGenericas_blueprint

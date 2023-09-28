@@ -1,0 +1,60 @@
+{% extends 'template_principal.html' %}
+{% block conteudo %}
+<div class="container">
+    <h2>{{ titulo }}</h2>
+    <form method="post" action="{{ url_for('produtos.newProduct') }}" class="conteiner">
+        {{ form.csrf_token() }}
+        <div  class="form-group">
+            <div  class="col-md-5">
+                {{ form.codigo.label(class="form-label") }}
+                {{ form.codigo(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div  class="col-md-5">
+                {{ form.nome.label(class="form-label") }}
+                {{ form.nome(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                <!-- {{ form.frasco_id.label }} -->
+                {{ form.frasco_id(class="form-select form-select-sm") }}
+            </div>
+            <div class="col-md-5">
+                <!-- {{ form.fita_id.label }} -->
+                {{ form.fita_id(class="form-select form-select-sm") }}
+            </div>
+            <div class="col-md-5">
+                <!-- {{ form.cliche_id.label }} -->
+                {{ form.cliche_id(class="form-select form-select-sm") }}
+            </div>
+            <!-- <div  class="col-md-5">
+                <select class="form-select" aria-label="Small select example" name="frasco_id">
+                    <option value=""  class="form-control" selected>--Escolha um frasco--</option>
+                    {% for frasco in frascos %}
+                    <option value="{{ frascos.id }}" class="form-control" >{{ frasco.nome }}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-select form-select-sm" aria-label="Small select example" name="fita_id">
+                    <option value=""  class="form-control" selected>--Escolha uma fita--</option>
+                    {% for fita in fitas %}
+                    <option value="{{ fita.id }}" class="form-control" >{{ fita.descricao }}</option>
+                    {% endfor %}
+                </select>
+                <select class="form-select form-select-sm" aria-label="Small select example" name="cliche_id">
+                    <option value=""  class="form-control" selected>--Escolha um clichê--</option>
+                    {% for cliche in cliches %}
+                    <option value="{{ cliche.id }}" class="form-control" >{{ cliche.descricao }}</option>
+                    {% endfor %}
+                </select>
+            </div> -->
+        </div>
+        <div class="form-group buttons">
+            <a href="{{ url_for('produtos.index') }}" class="btn btn-primary" type="button" >Voltar</a>
+            <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

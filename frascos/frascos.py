@@ -1,8 +1,9 @@
 from flask import render_template, redirect, flash, request, url_for, Blueprint, session
-from models.model import Frascos
+from models.model import Frascos, Produtos
 from helpers import FormularioFrasco
 import base64
 from extensions import db
+from utils import verificarDependentesFrasco
 
 frascos_blueprint = Blueprint("frascos", __name__, template_folder="templates")
 
@@ -10,7 +11,7 @@ frascos_blueprint = Blueprint("frascos", __name__, template_folder="templates")
 @frascos_blueprint.route('/')
 def allFrascos():
     frascos = Frascos.query.order_by(Frascos.id)
-    return render_template("frascos.html", frascos=frascos, titulo='Frascos')
+    return render_template("frascos.html", frascos=frascos, titulo='Frascos', erro=request.args.get('erro'))
 
 #Rota para carregar formulario para cadastrar novo Frasco
 @frascos_blueprint.route('/frascos/novo')
@@ -78,8 +79,13 @@ def salvarEdicaoFrasco():
 
 @frascos_blueprint.route('/frascos/deletar')
 def deletarFrasco():
+    erro = None
     id = request.args.get("id")
-    Frascos.query.filter_by(id=id).delete()
-    flash(f'Frasco deletado com sucesso!')
+    if verificarDependentesFrasco(id):
+        flash('Não é possível excluir esse frasco, pois existem produtos cadastrados que a utilizam como parte de sua composição.')
+        erro = True
+    else:
+        Frascos.query.filter_by(id=id).delete()
+        flash(f'Frasco deletado com sucesso!')
     db.session.commit()
-    return redirect(url_for('frascos.allFrascos'))
+    return redirect(url_for('frascos.allFrascos', erro=erro))

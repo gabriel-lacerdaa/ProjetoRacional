@@ -22,24 +22,30 @@
     <!-- Esse trecho de codigo serve para aparecer a mensagem de flash do flask -->
   <!-- https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/  documentação da mensagem flash -->
   {% with messages = get_flashed_messages() %}
-    {% if messages %} 
-        <ul id="messages" class="list-unstyled">
-        {% for message in messages %}
-            <li class="alert alert-success">{{ message }}</li>
-        {% endfor %}
-        </ul>
-        <script>
-            // Função para remover a mensagem de flash após alguns segundos
-            setTimeout(function() {
-                var messages = document.getElementById("messages");
-                if (messages) {
-                    messages.style.display = "none";
-                }
-            }, 5000); // 5000 milissegundos = 5 segundos
-        </script>
+  {% if messages %}
+    <!-- Gambiarra para alterar a cor da mensagem se for erro -->
+    {% if erro %}
+    <div id="flash-messages" style="background-color: rgb(245, 194, 194);position: fixed; top: 0; left: 0; right: 0;  padding: 10px; text-align: center; z-index: 1000;">
+    {% else %} 
+    <div id="flash-messages" style="background-color: rgb(231, 247, 231);position: fixed; top: 0; left: 0; right: 0;  padding: 10px; text-align: center; z-index: 1000;">
     {% endif %}
-  {% endwith %}
-
+          <ul id="messages" class="list-unstyled">
+              {% for message in messages %}
+                  <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+      </div>
+      <script>
+          // Função para remover a mensagem de flash após alguns segundos
+          setTimeout(function() {
+              var flashMessages = document.getElementById("flash-messages");
+              if (flashMessages) {
+                  flashMessages.style.display = "none";
+              }
+          }, 5000); // 5000 milissegundos = 5 segundos
+      </script>
+  {% endif %}
+{% endwith %}
 
   <div class="container-fluid">
     <div class="row">
@@ -47,7 +53,7 @@
         <div class="position-sticky pt-3 sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('produtos.index') }}">
                 <span data-feather="home" class="align-text-bottom"></span>
                 Produtos Final
               </a>

@@ -2,13 +2,15 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request
 from helpers import FormularioFita
 from models.model import Fitas
 from extensions import db
+from utils import verificarDependentesFita
 
 fitas_blueprint = Blueprint("fitas", __name__, template_folder="templates")
 
 @fitas_blueprint.route('/fitas')
 def allFitas():
     fitas = Fitas.query.order_by(Fitas.id)
-    return render_template('fitas.html', fitas=fitas, titulo = "Fitas")
+    print(request.args.get('erro'))
+    return render_template('fitas.html', fitas=fitas, titulo = "Fitas", erro=request.args.get('erro'))
 
 @fitas_blueprint.route('/fitas/nova_fita')
 def newFita():
@@ -58,8 +60,13 @@ def salvarEdicao():
 @fitas_blueprint.route('/fitas/deletar')
 def deletarFita():
     id_fita = request.args.get("id")
-    Fitas.query.filter_by(id=int(id_fita)).delete()
-    db.session.commit()
-    flash("Fita deletada com sucesso!")
-    return redirect(url_for('fitas.allFitas'))
+    erro = None
+    if verificarDependentesFita(id_fita):
+        flash('Não é possível excluir essa fita, pois existem produtos cadastrados que a utilizam como parte de sua composição.')
+        erro = True
+    else:
+        Fitas.query.filter_by(id=int(id_fita)).delete()   
+        db.session.commit()
+        flash("Fita deletada com sucesso!")
+    return redirect(url_for('fitas.allFitas', erro=erro))
     
