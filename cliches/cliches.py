@@ -2,15 +2,28 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from models.model import Cliches
 from helpers import FormularioCliche
 from extensions import db
-from utils import verificarDependentesCliche
+from utils import verificarDependentesCliche, verificarSeEstaLogado
 
 cliches_blueprint = Blueprint("cliches", __name__, template_folder="templates")
+
+# Middleware para verificar se o usuário está logado
+@cliches_blueprint.before_request
+def verificar_autenticacao():
+    if not verificarSeEstaLogado():
+        # Redirecionar para a página de login
+        return redirect(url_for('login.login', proxima=request.url))
+
 
 
 @cliches_blueprint.route('/cliches')
 def allCliches():
-    cliches = Cliches.query.order_by(Cliches.id) 
-    return render_template('cliches.html', titulo="Clichês", cliches=cliches, erro=request.args.get('erro'))
+    if verificarSeEstaLogado():
+        cliches = Cliches.query.order_by(Cliches.id) 
+        return render_template('cliches.html', titulo="Clichês", cliches=cliches, erro=request.args.get('erro'))
+    else:
+        return redirect(url_for('login.login', proxima=url_for('cliches.allCliches')))
+
+
 
 @cliches_blueprint.route('/cliches/novo')
 def newCliche():

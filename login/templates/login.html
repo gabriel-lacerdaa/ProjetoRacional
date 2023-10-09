@@ -1,13 +1,19 @@
 {% extends 'template.html' %}
 
-1{% block conteudo %}
-		<form action="/autenticar" method="POST">
+{% block conteudo %}
+		<form action="{{ url_for('login.logar') }}" method="POST">
+			{{ form.csrf_token() }}
 			<div>
 				<input type="hidden" name="proxima_url" value="{{ proxima_url }}">
-					<label for="username">Usuário:</label>
+					{{ form.usuario.label() }}
+					{{ form.usuario() }}
+
+					{{ form.senha.label() }}
+					{{ form.senha() }}
+					<!-- <label for="username">Usuário:</label>
 					<input type="text" id="username" name="username" autocomplete="off" required><br>
 					<label for="password">Senha:</label>
-					<input type="password" id="password" name="password" autocomplete="off" required><br>
+					<input type="password" id="password" name="password" autocomplete="off" required><br> -->
 				</div>
 			<button type="submit">Enviar</button>
 		</form>

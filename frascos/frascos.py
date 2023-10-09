@@ -1,17 +1,27 @@
 from flask import render_template, redirect, flash, request, url_for, Blueprint, session
-from models.model import Frascos, Produtos
+from models.model import Frascos
 from helpers import FormularioFrasco
 import base64
 from extensions import db
-from utils import verificarDependentesFrasco
+from utils import verificarDependentesFrasco, verificarSeEstaLogado
 
 frascos_blueprint = Blueprint("frascos", __name__, template_folder="templates")
 
+
+# Middleware para verificar se o usuário está logado
+@frascos_blueprint.before_request
+def verificar_autenticacao():
+    if not verificarSeEstaLogado():
+        # Redirecionar para a página de login
+        return redirect(url_for('login.login', proxima=request.url))
+
+
 #POr enquanto essa é a raiz
-@frascos_blueprint.route('/')
+@frascos_blueprint.route('/frascos')
 def allFrascos():
     frascos = Frascos.query.order_by(Frascos.id)
     return render_template("frascos.html", frascos=frascos, titulo='Frascos', erro=request.args.get('erro'))
+    
 
 #Rota para carregar formulario para cadastrar novo Frasco
 @frascos_blueprint.route('/frascos/novo')

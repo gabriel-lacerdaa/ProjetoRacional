@@ -3,23 +3,39 @@
 {% block conteudo %}
     <h1>{{ titulo }}</h1>
    
-    <form action="{{ url_for('produtos.salvar') }}" method="post">
-        <input type="hidden" name="id" value="{{ produto.id }}">
+    <form action="{{ url_for('produtos.salvarEdicao') }}" method="post">
+        <input type="hidden" name="id" value="{{ id }}">
+        {{ form.csrf_token() }}
         <div  class="form-group">
             <div  class="col-md-5">
-                <label for="produto">Codigo</label>
-                <input type="text" class="form-control" name="produto" id="produto" value="{{ produto.codigo }}">
+                {{ form.codigo.label(class="form-label") }}
+                {{ form.codigo(class="form-control") }}
+               
             </div>
         </div>
         <div  class="form-group">
             <div  class="col-md-5">
-                <label for="descricao">Nome</label>
-                <input type="text" class="form-control" name="descricao" id="descricao" value="{{ produto.nome }}">
+                {{ form.nome.label(class="form-label") }}
+                {{ form.nome(class="form-control") }}
+            </div>
+        </div>
+        <div  class="form-group">
+            <div class="col-md-5">
+                <!-- {{ form.frasco_id.label }} -->
+                {{ form.frasco_id(class="form-select form-select-sm", style="font-weight: bold;") }}
+            </div>
+            <div class="col-md-5">
+                <!-- {{ form.fita_id.label }} -->
+                {{ form.fita_id(class="form-select form-select-sm", style="font-weight: bold;") }}
+            </div>
+            <div class="col-md-5">
+                <!-- {{ form.cliche_id.label }} -->
+                {{ form.cliche_id(class="form-select form-select-sm", style="font-weight: bold;") }}
             </div>
         </div>
         <div class="form-group buttons">
-            <a href="{{ url_for('produtos.index') }}" class="btn btn-primary" type="button" >Voltar</a>
-            <button type="submit" class="btn btn-success" >Salvar</button>
+            {{ form.salvar(class="btn btn-success") }}
+            <a href="{{ url_for('produtos.allProducts') }}" class="btn btn-primary">Voltar</a>
         </div>
     </form>
 {% endblock %}

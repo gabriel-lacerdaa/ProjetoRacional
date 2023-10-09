@@ -1,15 +1,30 @@
+from flask import session
 from models.model import Produtos
+from models.model import Frascos, Fitas, Cliches
 
-def listaParaSelectPelaDescricao(Opcoes, labelIncial):
-    listaDeOpcoes = [(0, labelIncial)]
-    for opcao in Opcoes:
-        listaDeOpcoes.append((opcao.id, opcao.descricao))
+def listaDeFrascoParaSelect(label_incial, value=0):
+    listaDeOpcoes = [(value, label_incial)]
+    frascos = Frascos.query.order_by(Frascos.id)
+    for frasco in frascos:
+        if frasco.id != listaDeOpcoes[0][0]:
+            listaDeOpcoes.append((frasco.id, f'{frasco.nome} / {frasco.cor}'))
     return listaDeOpcoes
 
-def listaParaSelectPeloNome(Opcoes, labelIncial):
-    listaDeOpcoes = [(0, labelIncial)]
-    for opcao in Opcoes:
-        listaDeOpcoes.append((opcao.id, opcao.nome))
+def listaDeFitasParaSelect(label_inicial, value=0):
+    listaDeOpcoes = [(value, label_inicial)]
+    fitas = Fitas.query.order_by(Fitas.id)
+    for fita in fitas:
+        if fita.id != listaDeOpcoes[0][0]:
+            listaDeOpcoes.append((fita.id, f'{fita.descricao} / {fita.tamanho_corte_mm}(mm)'))
+    return listaDeOpcoes
+
+
+def listaDeClichesParaSelect(label_inicial, value=0):
+    listaDeOpcoes = [(value, label_inicial)]
+    cliches = Cliches.query.order_by(Cliches.id)
+    for cliche in cliches:
+        if cliche.id != listaDeOpcoes[0][0]:
+            listaDeOpcoes.append((cliche.id, f'{cliche.codigo_interno} / {cliche.descricao}'))
     return listaDeOpcoes
 
 
@@ -35,3 +50,9 @@ def verificarDependentesCliche(cliche_id):
         return True
     else:
         return False
+    
+
+def verificarSeEstaLogado():
+    if ("user" in session) and (session["user"] is not None):
+        return True
+    return False

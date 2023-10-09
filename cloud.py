@@ -76,9 +76,9 @@ cursor.execute("""
 #     cursor.execute(sql_insert, frasco)
 
 
-# usuario = ("gabriel", generate_password_hash("senha").decode('utf-8'))
-# sql_insert = "INSERT INTO usuarios (nome, senha) values (%s,  %s)"
-# cursor.execute(sql_insert, usuario)
+usuario = ("admin", generate_password_hash("admin").decode('utf-8'))
+sql_insert = "INSERT INTO usuarios (nome, senha) values (%s,  %s)"
+cursor.execute(sql_insert, usuario)
 
 # produtos = [
 #     ("produto1", '001', "descricao do produto1"),

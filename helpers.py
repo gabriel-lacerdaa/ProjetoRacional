@@ -1,5 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField, IntegerField, FloatField, SelectField
+from wtforms import StringField, validators, SubmitField, FloatField, SelectField, PasswordField
+
+
+class FormularioLogin(FlaskForm):
+    usuario = StringField('Usuário', [validators.DataRequired(), validators.Length(min=5, max=11)], render_kw={'autocomplete': 'off'})
+    senha = PasswordField('Senha', [validators.DataRequired()])
+    enviar = SubmitField('Enviar')
 
 class FormularioFrasco(FlaskForm):
     nome = StringField('Nome', [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
@@ -26,3 +32,4 @@ class FormularioProdutoFinal(FlaskForm):
     fita_id = SelectField('Fita', [validators.DataRequired()], coerce=int)
     # Campo de seleção para cliche_id
     cliche_id = SelectField('Clichê', [validators.DataRequired()], coerce=int)
+    salvar = SubmitField('Salvar')

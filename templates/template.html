@@ -8,6 +8,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div id="flash-messages" style="background-color: rgb(245, 194, 194);position: fixed; top: 0; left: 0; right: 0;  padding: 10px; text-align: center; z-index: 1000;">
+        <ul id="messages" class="list-unstyled">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+        <script>
+            // Função para remover a mensagem de flash após alguns segundos
+            setTimeout(function() {
+                var flashMessages = document.getElementById("flash-messages");
+                if (flashMessages) {
+                    flashMessages.style.display = "none";
+                }
+            }, 5000); // 5000 milissegundos = 5 segundos
+        </script>
+    {% endif %}
+  {% endwith %}
+
         {% block conteudo %}
         
         {% endblock %}

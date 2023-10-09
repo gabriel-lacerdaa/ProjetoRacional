@@ -2,14 +2,23 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request
 from helpers import FormularioFita
 from models.model import Fitas
 from extensions import db
-from utils import verificarDependentesFita
+from utils import verificarDependentesFita, verificarSeEstaLogado
 
 fitas_blueprint = Blueprint("fitas", __name__, template_folder="templates")
+
+
+@fitas_blueprint.before_request
+def verificar_autenticacao():
+    if not verificarSeEstaLogado():
+        # Redirecionar para a página de login
+        return redirect(url_for('login.login', proxima=request.url))
+
 
 @fitas_blueprint.route('/fitas')
 def allFitas():
     fitas = Fitas.query.order_by(Fitas.id)
     return render_template('fitas.html', fitas=fitas, titulo = "Fitas", erro=request.args.get('erro'))
+
 
 @fitas_blueprint.route('/fitas/nova_fita')
 def newFita():
