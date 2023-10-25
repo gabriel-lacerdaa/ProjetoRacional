@@ -2,9 +2,16 @@ from flask import request, render_template, redirect, url_for, session, Blueprin
 from models.model import Produtos, Fitas, Frascos, Cliches
 from extensions import db
 from helpers import FormularioProdutoFinal
-from utils import listaDeFitasParaSelect, listaDeClichesParaSelect, listaDeFrascoParaSelect
+from utils import listaDeFitasParaSelect, listaDeClichesParaSelect, listaDeFrascoParaSelect, verificarSeEstaLogado
 
 produtos_blueprint = Blueprint("produtos", __name__, template_folder="templates")
+
+@produtos_blueprint.before_request
+def verificar_autenticacao():
+    if not verificarSeEstaLogado():
+        # Redirecionar para a página de login
+        return redirect(url_for('login.login', proxima=request.url))
+
 
 @produtos_blueprint.route('/produtos_final')
 def allProducts():
