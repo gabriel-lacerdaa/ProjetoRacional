@@ -27,7 +27,7 @@ cursor.execute("""
                """)
 
 cursor.execute("""
-               CREATE TABLE produtos (
+               CREATE TABLE produtos_final (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 nome VARCHAR(100) NOT NULL,
                 cod_produto  varchar(20) NOT NULL, 

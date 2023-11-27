@@ -15,11 +15,14 @@ def verificar_autenticacao():
 
 @produtos_blueprint.route('/produtos_final')
 def allProducts():
-    # if ("user" in session) and (session["user"] is not None):
-    produtos = Produtos.query.order_by(Produtos.id)
-    return render_template("produtos.html", produtos=produtos, titulo='Produtos')
-    # else:
-    #     return redirect(url_for('login', proxima=url_for('index')))
+    codigo = request.args.get('codigo_filtro')
+    if codigo:
+        produto = Produtos.query.filter_by(codigo=codigo)
+        return render_template("produtos.html", produtos=produto, titulo='Produtos')
+    else:
+        produtos = Produtos.query.order_by(Produtos.id)
+        return render_template("produtos.html", produtos=produtos, titulo='Produtos')
+
 
 
 @produtos_blueprint.route('/produtos/editar')
