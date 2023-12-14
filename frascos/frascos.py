@@ -45,6 +45,7 @@ def salvarFrasco():
         frasco_imagem = request.files['arquivo']
         if frasco_imagem.filename != 'img_padrao.jpg' and frasco_imagem.filename != '':
             imagem_binaria = frasco_imagem.read()
+            print(imagem_binaria)
             if len(imagem_binaria) > 65000:
                 flash('Por favor, envie imagens com tamanho inferior a 64 KB. A imagem atual é muito grande.')
                 return redirect(url_for('frascos.allFrascos'))
