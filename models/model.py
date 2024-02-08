@@ -1,10 +1,11 @@
 from extensions import db
 
-class Usuarios(db.Model):
-    __tablename__ = 'usuarios'
+class Funcionarios(db.Model):
+    __tablename__ = 'funcionarios'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     senha = db.Column(db.String(30), nullable=False)
+    admin = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f"Usuario('{self.nome}')"

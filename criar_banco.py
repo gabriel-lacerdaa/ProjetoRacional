@@ -20,10 +20,13 @@ cursor.execute('CREATE DATABASE `Racional`')
 cursor.execute('USE `Racional`')
 
 cursor.execute("""
-               CREATE TABLE usuarios (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+               CREATE TABLE funcionarios (
+                id INT AUTO_INCREMENT,
                 nome VARCHAR(100) NOT NULL, 
-                senha VARCHAR(100) NOT NULL)
+                senha VARCHAR(100) NOT NULL,
+                admin tinyint(1) not null,
+                constraint pk_funcionario primary key(id)
+               )
                """)
 
 cursor.execute("""
@@ -59,19 +62,22 @@ cursor.execute("""
 )
 """)
 
-# frascos = [
-#     ("Frasco exemplo 1", "preto"),
-#     ("Frasco exemplo 2", "rosa"),
-#     ("Frasco exemplo 3", "vermelho")
-# ]
+frascos = [
+    ("Frasco exemplo 1", "preto"),
+    ("Frasco exemplo 2", "rosa"),
+    ("Frasco exemplo 3", "vermelho")
+]
 
-# for frasco in frascos:
-#     sql_insert = "INSERT INTO frascos (nome, cor) values (%s, %s)"
-#     cursor.execute(sql_insert, frasco)
+for frasco in frascos:
+    sql_insert = "INSERT INTO frascos (nome, cor) values (%s, %s)"
+    cursor.execute(sql_insert, frasco)
 
 
-usuario = ("gabriel", generate_password_hash("senha").decode('utf-8'))
-sql_insert = "INSERT INTO usuarios (nome, senha) values (%s,  %s)"
+usuario = ("gabriel", generate_password_hash("senha").decode('utf-8'), 0)
+sql_insert = "INSERT INTO funcionarios (nome, senha, admin) values (%s,  %s, %s)"
+cursor.execute(sql_insert, usuario)
+usuario = ("admin", generate_password_hash("admin").decode('utf-8'), 1)
+sql_insert = "INSERT INTO funcionarios (nome, senha, admin) values (%s,  %s, %s)"
 cursor.execute(sql_insert, usuario)
 
 produtos = [
@@ -87,7 +93,7 @@ for produto in produtos:
     cursor.execute(sql_insert, produto)
 
 
-cursor.execute("SELECT * FROM Racional.usuarios")
+cursor.execute("SELECT * FROM Racional.funcionarios")
 print("-"*10+' Usuarios '+'-'*10)
 for user in cursor.fetchall():
     print(user[1])
