@@ -7,7 +7,7 @@ from utils import verificarDependentesFita, verificarSeEstaLogado
 fitas_blueprint = Blueprint("fitas", __name__, template_folder="templates")
 
 
-@fitas_blueprint.before_request
+# @fitas_blueprint.before_request
 def verificar_autenticacao():
     if not verificarSeEstaLogado():
         # Redirecionar para a página de login
@@ -30,7 +30,7 @@ def salvarFita():
     fita = Fitas.query.filter_by(codigo_interno=request.form['codigo_interno']).first()
     if fita:
         flash('Essa fita ja esta cadastrada!')
-        return redirect(url_for('fitas.allFitas'))
+        return redirect(url_for('fitas.allFitas', erro=True))
     form = FormularioFita(request.form)
     if not form.validate_on_submit():
         flash('Dados invalidos')

@@ -4,9 +4,10 @@ from flask_bcrypt import generate_password_hash
 print("Conectando...")
 try:
     conn = mysql.connector.connect(
-        host='localhost',
+        host='viaduct.proxy.rlwy.net',
         user='root',
-        password='123456789'
+        password='c6e-DAHFB-dHG5FfgECE3dH6DdC1bE66',
+        port=29524
     )
 except:
     print("Não foi possivel fazer a conexão")
@@ -25,16 +26,21 @@ cursor.execute("""
                 nome VARCHAR(100) NOT NULL, 
                 senha VARCHAR(100) NOT NULL,
                 admin tinyint(1) not null,
+                vt float NOT NULL,
+                CPF varchar(14) NOT NULL,
+                status char(1) NOT NULL,
                 constraint pk_funcionario primary key(id)
                )
                """)
 
 cursor.execute("""
-               CREATE TABLE produtos_final (
+               CREATE TABLE produtos_finais (
                 id INT AUTO_INCREMENT PRIMARY KEY,
+                codigo VARCHAR(50),
                 nome VARCHAR(100) NOT NULL,
-                cod_produto  varchar(20) NOT NULL, 
-                descricao VARCHAR(200) NOT NULL)
+                frasco_id INT NOT NULL,
+                fita_id INT NOT NULL,
+                cliche_id INT NOT NULL)
                """)
 
 cursor.execute("""
@@ -62,46 +68,21 @@ cursor.execute("""
 )
 """)
 
-frascos = [
-    ("Frasco exemplo 1", "preto"),
-    ("Frasco exemplo 2", "rosa"),
-    ("Frasco exemplo 3", "vermelho")
-]
-
-for frasco in frascos:
-    sql_insert = "INSERT INTO frascos (nome, cor) values (%s, %s)"
-    cursor.execute(sql_insert, frasco)
 
 
-usuario = ("gabriel", generate_password_hash("senha").decode('utf-8'), 0)
-sql_insert = "INSERT INTO funcionarios (nome, senha, admin) values (%s,  %s, %s)"
+
+usuario = ("gabriel", generate_password_hash("senha").decode('utf-8'), 0, 10, 22222222222, 'A')
+sql_insert = "INSERT INTO funcionarios (nome, senha, admin, vt, CPF, status) values (%s,  %s, %s, %s, %s, %s)"
 cursor.execute(sql_insert, usuario)
-usuario = ("admin", generate_password_hash("admin").decode('utf-8'), 1)
-sql_insert = "INSERT INTO funcionarios (nome, senha, admin) values (%s,  %s, %s)"
+usuario = ("admin", generate_password_hash("admin").decode('utf-8'), 1, 8, 11111111111, 'A')
+
 cursor.execute(sql_insert, usuario)
-
-produtos = [
-    ("produto1", '001', "descricao do produto1"),
-    ("produto2", '002', "descricao do produto2"),
-    ("produto3", '003', "descricao do produto3"),
-    ("produto4", '004', "descricao do produto4"),
-    ("produto5", '005', "descricao do produto5")
-]
-
-for produto in produtos:
-    sql_insert = "INSERT INTO produtos (nome, cod_produto, descricao) values (%s, %s, %s)"
-    cursor.execute(sql_insert, produto)
-
 
 cursor.execute("SELECT * FROM Racional.funcionarios")
 print("-"*10+' Usuarios '+'-'*10)
 for user in cursor.fetchall():
     print(user[1])
 
-cursor.execute("SELECT * FROM Racional.produtos")
-print("-"*10+' Produtos '+'-'*10)
-for produto in cursor.fetchall():
-    print(produto[1], produto[2])
 
 
 cursor.close()

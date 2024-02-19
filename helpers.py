@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField, FloatField, SelectField, PasswordField
+from wtforms import StringField, validators, SubmitField, FloatField, SelectField, PasswordField, BooleanField
 
 
 class FormularioLogin(FlaskForm):
@@ -9,7 +9,7 @@ class FormularioLogin(FlaskForm):
 
 class FormularioFrasco(FlaskForm):
     nome = StringField('Nome', [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
-    cor = StringField('Cor', [validators.DataRequired(), validators.Length(min=5, max=50)], render_kw={'autocomplete': 'off'})
+    cor = StringField('Cor', [validators.DataRequired(), validators.Length(min=4, max=50)], render_kw={'autocomplete': 'off'})
     salvar = SubmitField('Salvar')
 
 class FormularioFita(FlaskForm):
@@ -32,4 +32,13 @@ class FormularioProdutoFinal(FlaskForm):
     fita_id = SelectField('Fita', [validators.DataRequired()], coerce=int)
     # Campo de seleção para cliche_id
     cliche_id = SelectField('Clichê', [validators.DataRequired()], coerce=int)
+    salvar = SubmitField('Salvar')
+
+class FormularioFuncionarios(FlaskForm):
+    nome = StringField('Nome',  [validators.DataRequired(), validators.Length(min=4, max=50)], render_kw={'autocomplete': 'off'})
+    vt = FloatField('VT(Diario)',  [validators.DataRequired(), validators.NumberRange(min=0.1, max=10000.0)], render_kw={'autocomplete': 'off'})
+    CPF = FloatField('CPF',  [validators.DataRequired(), validators.Length(min=4, max=50)], render_kw={'autocomplete': 'off'})
+    admin = BooleanField('Admin', render_kw={'autocomplete': 'off'})
+    status = BooleanField('Ativo', render_kw={'autocomplete': 'off'})
+    senha = PasswordField('Senha', [validators.DataRequired()])
     salvar = SubmitField('Salvar')

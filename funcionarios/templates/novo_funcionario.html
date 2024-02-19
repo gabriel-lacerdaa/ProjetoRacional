@@ -1,0 +1,48 @@
+{% extends 'template_principal.html' %}
+{% block conteudo %}
+<div class="container">
+    <h2>Novo funcionario</h2>
+    <form method="post" action="{{ url_for('funcionarios.saveFuncionario') }}" class="conteiner">
+        {{ form.csrf_token() }}
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.nome.label(class="form-label") }}
+                {{ form.nome(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.vt.label(class="form-label") }}
+                {{ form.vt(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.CPF.label(class="form-label") }}
+                {{ form.CPF(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.senha.label(class="form-label") }}
+                {{ form.senha(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group buttons">
+            <div class="col-md-5">
+                {{ form.admin(class="form-check-input") }}
+                {{ form.admin.label(class="form-check-label") }}
+
+                {{ form.status(class="form-check-input") }}
+                {{ form.status.label(class="form-check-label") }}
+            </div>
+        
+        </div>
+        <div class="form-group buttons">
+            <a class="btn btn-danger" href="{{ url_for('funcionarios.allFuncionarios') }}">Cancelar</a>
+            <button class="btn btn-primary" type="submit">Salvar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

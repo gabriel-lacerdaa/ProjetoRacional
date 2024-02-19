@@ -6,13 +6,16 @@ class Funcionarios(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     senha = db.Column(db.String(30), nullable=False)
     admin = db.Column(db.Integer, nullable=False)
+    vt = db.Column(db.Float, nullable=False)
+    CPF = db.Column(db.String(14), nullable=False)
+    status = db.Column(db.String(1), nullable=False)
 
     def __repr__(self):
         return f"Usuario('{self.nome}')"
 
 
 class Produtos(db.Model):
-    __tablename__ = 'produtos_final'
+    __tablename__ = 'produtos_finais'
     id = db.Column(db.Integer, primary_key=True)
     codigo = db.Column(db.String(50))
     nome = db.Column(db.String(100), nullable=False)

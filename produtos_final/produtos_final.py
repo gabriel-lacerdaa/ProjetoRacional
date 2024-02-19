@@ -42,7 +42,6 @@ def edit():
 
 @produtos_blueprint.route('/produtos/editar/salvar', methods=['POST'])
 def salvarEdicao():
-    erro=None
     form=FormularioProdutoFinal(request.form)
     produto = Produtos.query.filter_by(id=request.form["id"]).first()
     produto.codigo = form.codigo.data
@@ -87,8 +86,7 @@ def newProduct():
         return redirect(url_for('produtos.novoProduto'))
     if form.fita_id.data == 0 or form.frasco_id.data == 0 or form.cliche_id.data == 0:
         flash('É necessário informar um Frasco, Fita e Clichê para inserir um novo Produto!!')
-        erro=True
-        return redirect(url_for('produtos.novoProduto', erro=erro))
+        return redirect(url_for('produtos.novoProduto', erro=True))
     produto = Produtos(nome=form.nome.data, codigo=form.codigo.data, fita_id=form.fita_id.data, 
                        frasco_id=form.frasco_id.data, cliche_id=form.cliche_id.data)
     db.session.add(produto)
