@@ -20,7 +20,8 @@ def verificar_autenticacao():
 @funcionarios_blueprint.route('/funcionarios')
 def allFuncionarios():
     try:
-        funcionarios = db.session.query(Funcionarios).filter(Funcionarios.admin != 1).order_by(Funcionarios.id).all()
+        funcionarios =  Funcionarios.query.order_by(Funcionarios.id)   
+        # db.session.query(Funcionarios).filter(Funcionarios.admin != 1).order_by(Funcionarios.id).all()
         return render_template('funcionarios.html', funcionarios=funcionarios, erro=request.args.get('erro'))
     except:
         flash('Erro ao buscar funcionarioos!')

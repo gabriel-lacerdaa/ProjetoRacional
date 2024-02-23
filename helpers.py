@@ -37,8 +37,8 @@ class FormularioProdutoFinal(FlaskForm):
 class FormularioFuncionarios(FlaskForm):
     nome = StringField('Nome',  [validators.DataRequired(), validators.Length(min=4, max=50)], render_kw={'autocomplete': 'off'})
     vt = FloatField('VT(Diario)',  [validators.DataRequired(), validators.NumberRange(min=0.1, max=10000.0)], render_kw={'autocomplete': 'off'})
-    CPF = FloatField('CPF',  [validators.DataRequired(), validators.Length(min=4, max=50)], render_kw={'autocomplete': 'off'})
+    CPF = StringField('CPF',  [validators.DataRequired(), validators.Length(min=11, max=14)], render_kw={'autocomplete': 'off'})
     admin = BooleanField('Admin', render_kw={'autocomplete': 'off'})
     status = BooleanField('Ativo', render_kw={'autocomplete': 'off'})
-    senha = PasswordField('Senha', [validators.DataRequired()])
+    # senha = PasswordField('Senha', [validators.DataRequired()])
     salvar = SubmitField('Salvar')

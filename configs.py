@@ -7,6 +7,6 @@ SQLALCHEMY_DATABASE_URI = \
     usuario = os.getenv('MYSQL_USER'),
     senha = os.getenv('MYSQL_PASSWORD'),
     servidor = os.getenv('MYSQL_SERVER'),
-    porta= 29524,
+    porta = os.getenv('MYSQL_PORT', 3306),
     database = os.getenv('MYSQL_DB'),
     )
