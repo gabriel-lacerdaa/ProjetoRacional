@@ -3,7 +3,7 @@ from wtforms import StringField, validators, SubmitField, FloatField, SelectFiel
 
 
 class FormularioLogin(FlaskForm):
-    usuario = StringField('Usuário', [validators.DataRequired(), validators.Length(min=5, max=11)], render_kw={'autocomplete': 'off'})
+    usuario = StringField('Usuário', [validators.DataRequired(), validators.Length(min=5, max=30)], render_kw={'autocomplete': 'off'})
     senha = PasswordField('Senha', [validators.DataRequired()])
     enviar = SubmitField('Enviar')
 
