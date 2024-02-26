@@ -26,9 +26,9 @@
                         <td>{{ funcionario.CPF }}</td>
                         <td>{{ funcionario.status }}</td>
                         <td>
-                            <a href="#" class="btn btn-outline-primary">Editar</a>
-                            <!-- <a href="{{ url_for('funcionarios.inativarFuncionario', id=funcionario.id) }}" type="button" class="btn btn-outline-danger">Inativar</a> -->
-                            <a href="#" type="button" class="btn btn-outline-danger">Inativar</a>
+                            <a href="{{ url_for('funcionarios.editFuncionario', id=funcionario.id) }}" class="btn btn-outline-primary">Editar</a>
+                            <a href="{{ url_for('funcionarios.inativarFuncionario', id=funcionario.id) }}" type="button" class="btn btn-outline-danger">(In)ativar</a>
+                        
                         </td>
                     </tr>
                 {% endfor %}

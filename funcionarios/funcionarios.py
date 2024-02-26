@@ -24,7 +24,7 @@ def allFuncionarios():
         # db.session.query(Funcionarios).filter(Funcionarios.admin != 1).order_by(Funcionarios.id).all()
         return render_template('funcionarios.html', funcionarios=funcionarios, erro=request.args.get('erro'))
     except:
-        flash('Erro ao buscar funcionarioos!')
+        flash('Erro ao buscar funcionarios!')
         return render_template('funcionarios.html', erro=True)
 
 
@@ -60,16 +60,38 @@ def saveFuncionario():
         return redirect(url_for('funcionarios.allFuncionarios', erro=True))
         
     
-    
 
 @funcionarios_blueprint.route('/funcionarios/inativar')
 def inativarFuncionario():
     try:
         id = request.args.get("id")
-        funcionarios = Funcionarios.query.filter_by(id=id).first()
-        funcionarios.status = 'I'
+        funcionario = Funcionarios.query.filter_by(id=id).first()
+        if funcionario.status == 'I':    
+            funcionario.status = 'A'
+        else:
+            funcionario.status = 'I'
         db.session.commit()
+        # flash('Status atualizado com sucesso!')
         return redirect(url_for('funcionarios.allFuncionarios'))
     except:
         flash('Erro ao inativar funcionario!')
         return redirect(url_for('funcionarios.allFuncionarios', erro=True))
+
+
+@funcionarios_blueprint.route('/funcionarios/editar')
+def editFuncionario():
+    funcionario = Funcionarios.query.filter_by(id=request.args.get("id")).first()
+    form = FormularioFuncionarios()
+    form.process(obj=funcionario)
+    return render_template('editar_funcionario.html', form=form, id=funcionario.id)
+
+
+@funcionarios_blueprint.route('/funcionarios/editar/salvar', methods=['POST'])
+def saveEditFuncionario():
+    form = FormularioFuncionarios(request.form)
+    funcionario = Funcionarios.query.filter_by(id=request.args.get("id")).first()
+    funcionario.nome = form['nome'].data
+    funcionario.vt = form['vt'].data
+    funcionario.CPF = form['CPF'].data
+    db.session.commit()
+    return redirect(url_for('funcionarios.allFuncionarios'))
