@@ -1,13 +1,14 @@
 import mysql.connector
 from flask_bcrypt import generate_password_hash
+import os
 
 print("Conectando...")
 try:
     conn = mysql.connector.connect(
-        host='viaduct.proxy.rlwy.net',
-        user='root',
-        password='c6e-DAHFB-dHG5FfgECE3dH6DdC1bE66',
-        port=29524
+        host=,
+        user=,
+        password=,
+        port=
     )
 except:
     print("Não foi possivel fazer a conexão")
@@ -69,14 +70,37 @@ cursor.execute("""
 """)
 
 
+cursor.execute("""
+    CREATE TABLE if not EXISTS folha_de_ponto(
+	id integer auto_increment,
+	id_funcionario integer not null,
+	data date not null,
+	horas integer not null,
+	constraint pk_folha_de_ponto primary KEY(id),
+	constraint fk_funcionario foreign KEY(id_funcionario) references funcionarios(id)
+)
+""")
+
+cursor.execute("""
+    CREATE TABLE if not EXISTS configuracoes(
+	id integer auto_increment,
+	descricao varchar(255) not null,
+	valor_salario_dia float,
+	constraint pk_configuracoes primary key(id))
+""")
+
 
 
 usuario = ("gabriel", generate_password_hash("senha").decode('utf-8'), 0, 10, 22222222222, 'A')
 sql_insert = "INSERT INTO funcionarios (nome, senha, admin, vt, CPF, status) values (%s,  %s, %s, %s, %s, %s)"
 cursor.execute(sql_insert, usuario)
 usuario = ("admin", generate_password_hash("admin").decode('utf-8'), 1, 8, 11111111111, 'A')
-
 cursor.execute(sql_insert, usuario)
+
+
+config = ("Valor pago por dia", 75)
+sql_insert = "INSERT INTO configuracoes (descricao, valor_salario_dia) values (%s, %s)"
+cursor.execute(sql_insert, config)
 
 cursor.execute("SELECT * FROM Racional.funcionarios")
 print("-"*10+' Usuarios '+'-'*10)

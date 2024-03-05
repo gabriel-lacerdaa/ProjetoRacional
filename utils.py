@@ -1,6 +1,7 @@
 from flask import session
 from models.model import Produtos
-from models.model import Frascos, Fitas, Cliches
+from models.model import Frascos, Fitas, Cliches, Funcionarios, Configuracoes
+from extensions import db
 
 def listaDeFrascoParaSelect(label_incial, value=0):
     listaDeOpcoes = [(value, label_incial)]
@@ -36,6 +37,13 @@ def verificarDependentesFita(fita_id):
         return False
 
 
+def montarListaDeFuncionarios():
+    funcionarios = db.session.query(Funcionarios).filter(Funcionarios.status == 'A').order_by(Funcionarios.id).all()
+    listaFuncionarios = [(0, '--Escolha um funcionario--')]
+    for funcionario in funcionarios:
+        listaFuncionarios.append((funcionario.id, f'{funcionario.nome} / {funcionario.CPF}'))
+    return listaFuncionarios
+
 def verificarDependentesFrasco(frasco_id):
     produtos = Produtos.query.filter_by(frasco_id=frasco_id).first()
     if produtos:
@@ -56,3 +64,8 @@ def verificarSeEstaLogado():
     if ("user" in session) and (session["user"] is not None):
         return True
     return False
+
+
+def buscarValorDoSalarioPagoPorDia():
+    config = Configuracoes.query.filter_by(id=1).first()
+    return config.valor_salario_dia

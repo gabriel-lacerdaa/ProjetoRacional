@@ -1,0 +1,30 @@
+{% extends 'template_principal.html' %}
+
+{% block conteudo %}
+
+<h2>Novo Ponto</h2>
+<div class="container">
+    <form action="{{ url_for('folha_de_ponto.saveNewPonto') }}" method="post" class="container">
+        {{ form.csrf_token() }}
+        <div class="form-group">
+            <div class="col-md-5">
+                <!-- {{ form.id_funcionario.label(lass="form-label") }} -->
+                {{ form.id_funcionario(class="form-select form-select-sm", style="font-weight: bold;") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.horas.label(class="form-label") }}
+                {{ form.horas(class="form-control") }}
+            </div>  
+        </div>
+
+        <div class="form-group buttons">
+            <a class="btn btn-danger" href="{{ url_for('folha_de_ponto.allPontos') }}">Cancelar</a>
+            <button class="btn btn-primary" type="submit">Salvar</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

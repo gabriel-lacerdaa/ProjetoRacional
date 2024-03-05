@@ -9,6 +9,7 @@ class Funcionarios(db.Model):
     vt = db.Column(db.Float, nullable=False)
     CPF = db.Column(db.String(14), nullable=False)
     status = db.Column(db.String(1), nullable=False)
+    folha_de_ponto = db.relationship("FolhaDePonto", back_populates='funcionario')
 
     def __repr__(self):
         return f"Usuario('{self.nome}')"
@@ -46,3 +47,18 @@ class Cliches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     codigo_interno = db.Column(db.String(50))
     descricao = db.Column(db.String(255))
+
+
+class FolhaDePonto(db.Model):
+    __tablename__= 'folha_de_ponto'
+    id = db.Column(db.Integer, primary_key=True)
+    horas = db.Column(db.Integer)
+    data = db.Column(db.Date)
+    id_funcionario = db.Column(db.Integer, db.ForeignKey('funcionarios.id'))
+    funcionario = db.relationship("Funcionarios", back_populates="folha_de_ponto")
+
+class Configuracoes(db.Model):
+    __tablename__= 'configuracoes'
+    id = db.Column(db.Integer, primary_key=True)
+    valor_salario_dia = db.Column(db.Float, nullable=False)
+

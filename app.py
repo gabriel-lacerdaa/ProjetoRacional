@@ -8,6 +8,7 @@ from cliches.cliches import cliches_blueprint
 from genericas.routesGenerics import rotasGenericas_blueprint
 from funcionarios.funcionarios import funcionarios_blueprint
 from fitas.fitas import fitas_blueprint
+from folha_de_ponto.folha_de_ponto import folha_de_ponto_blueprint
 from extensions import db
 
 app = Flask(__name__)
@@ -22,6 +23,7 @@ app.register_blueprint(rotasGenericas_blueprint)
 app.register_blueprint(fitas_blueprint)
 app.register_blueprint(cliches_blueprint)
 app.register_blueprint(funcionarios_blueprint)
+app.register_blueprint(folha_de_ponto_blueprint)
 
 if __name__ == "__main__":
     app.run(debug=True)

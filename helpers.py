@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField, FloatField, SelectField, PasswordField, BooleanField
+from wtforms import StringField, validators, SubmitField, FloatField, SelectField, PasswordField, BooleanField, IntegerField, MonthField
 
 
 class FormularioLogin(FlaskForm):
@@ -42,3 +42,13 @@ class FormularioFuncionarios(FlaskForm):
     status = BooleanField('Ativo', render_kw={'autocomplete': 'off'})
     # senha = PasswordField('Senha', [validators.DataRequired()])
     salvar = SubmitField('Salvar')
+
+class FormularioPonto(FlaskForm):
+    id_funcionario = SelectField('Funcionario', [validators.DataRequired()], coerce=int)
+    horas = IntegerField('Horas trabalhadas', [validators.DataRequired(), validators.NumberRange(min=1, max=9)], render_kw={'autocomplete': 'off'})
+    salvar = SubmitField('Salvar')
+
+
+class FormularioCalcularSalario(FlaskForm):
+    mes_ano = MonthField('Mês para calcular: ')
+    calcular = SubmitField('Calcular salário')
