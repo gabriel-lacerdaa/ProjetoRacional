@@ -21,12 +21,15 @@ def verificar_autenticacao():
 
 
 @folha_de_ponto_blueprint.route('/folha_de_ponto')
-def allPontos():    
-    # folha_de_ponto = FolhaDePonto.query.order_by(FolhaDePonto.id)
+def allPontos():
+
+    mes_ano = request.args.get('mes_ano')
+    mes = mes_ano[5:] if mes_ano else date.today().month
+    #Transformando o int para remover os zeros a esquerda
+    mes = int(mes)
     form_calcular = FormularioCalcularSalario()
-    mes_atual = date.today().month
     folha_de_ponto = db.session.query(FolhaDePonto, Funcionarios)\
-        .join(Funcionarios).filter(func.extract('month', FolhaDePonto.data) == mes_atual)\
+        .join(Funcionarios).filter(func.extract('month', FolhaDePonto.data) == mes)\
         .order_by(FolhaDePonto.id.desc()).all()
     return render_template('folha_de_ponto.html', form=form_calcular, folha_de_ponto=folha_de_ponto, erro=request.args.get('erro'))
 
@@ -49,7 +52,7 @@ def saveNewPonto():
         flash('Erro ao criar novo ponto')
     return redirect(url_for('folha_de_ponto.allPontos'))
 
-@folha_de_ponto_blueprint.route('/folha_de_ponto/calcular', methods=['POST'])
+@folha_de_ponto_blueprint.route('/folha_de_ponto/calcular', methods=['POST', 'GET'])
 def calcularSalario():
     try:
         valor_salario_dia = buscarValorDoSalarioPagoPorDia()
@@ -65,7 +68,7 @@ def calcularSalario():
             return redirect(url_for('folha_de_ponto.allPontos', erro=True))
         
         salarios = db.session.query(Funcionarios.nome, Funcionarios.vt, 
-                        (func.sum(FolhaDePonto.horas) * valor_salario_hora).label('salario'),
+                        func.round((func.sum(FolhaDePonto.horas) * valor_salario_hora), 2).label('salario'),
                         (func.sum(FolhaDePonto.horas).label('horas_trabalhadas')), 
                         (func.count().label('dias_trabalhados'))) \
         .join(FolhaDePonto) \
@@ -73,6 +76,7 @@ def calcularSalario():
         .filter(func.extract('year', FolhaDePonto.data) == ano) \
         .group_by(Funcionarios.id) \
         .all()
+        print(salarios)
         return render_template('salario_calculado.html', salarios=salarios)
     except Exception as e:
         flash(f'Erro ao calcular salário: {str(e)}')
