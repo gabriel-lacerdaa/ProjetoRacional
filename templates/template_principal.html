@@ -50,7 +50,7 @@
 
   <div style="position: absolute; top: 10px; right: 20px;">
     <a href="{{ url_for('login.logout') }}">
-        <img src="../static/sair.png" class="icon-deslogar" alt="icone de deslogar" title="Deslogar" > <!-- Ajuste o tamanho conforme necessário -->
+        <img src="../static/sair.png" class="icon-deslogar" alt="icone de deslogar" title="Deslogar" >
     </a>
   </div>
 
@@ -100,13 +100,27 @@
               </a>
             </li>
 
-            <!-- <li class="nav-item">
+            <li class="nav-item">
               <a class="nav-link" href="{{ url_for('folha_de_ponto.allPontos') }}">
                 <span data-feather="shopping-cart" class="align-text-bottom"></span>
                 Folha de ponto
               </a>
-            </li> -->
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('configuracoes.allConfigs') }}">
+                <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                Configurações
+              </a>
+            </li>
             {% endif %}
+
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                Pedidos
+              </a>
+            </li> -->
 
 
       

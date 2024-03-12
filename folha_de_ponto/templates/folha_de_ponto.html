@@ -10,11 +10,16 @@
             <form action="{{ url_for('folha_de_ponto.calcularSalario') }}" method="post" >
                 {{ form.csrf_token() }}
                 {{ form.calcular(class="btn btn-primary") }}
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-3" >
                     <strong>{{ form.mes_ano.label(class="form-label") }}</strong>
-                    {{ form.mes_ano(class="form-control") }}
+                    <div style="display: flex; align-items: center;">
+                        {{ form.mes_ano(class="form-control") }}
+                        <a href="#">
+                            <img src="../static/filter.png" class="icon-deslogar" alt="Ícone de filtrar" title="Filtrar"
+                            style="margin-left: 10px;">
+                        </a>
+                    </div>
                 </div>
-                
             </form>
         </div>           
     </div>

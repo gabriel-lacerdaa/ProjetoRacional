@@ -5,10 +5,10 @@ import os
 print("Conectando...")
 try:
     conn = mysql.connector.connect(
-        host=,
-        user=,
-        password=,
-        port=
+        host='localhost',
+        user='root',
+        password='soft1973824650',
+        port= 3306
     )
 except:
     print("Não foi possivel fazer a conexão")

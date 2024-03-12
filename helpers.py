@@ -52,3 +52,9 @@ class FormularioPonto(FlaskForm):
 class FormularioCalcularSalario(FlaskForm):
     mes_ano = MonthField('Mês para calcular: ')
     calcular = SubmitField('Calcular salário')
+
+
+class FormularioConfiguracao(FlaskForm):
+    descricao = StringField('Descrição',  [validators.DataRequired(), validators.Length(min=8, max=255)], render_kw={'autocomplete': 'off'})
+    valor_salario_dia = FloatField('Valor salario diário', [validators.DataRequired(), validators.NumberRange(min=50, max=150)], render_kw={'autocomplete': 'off'})
+    salvar = SubmitField('Salvar')

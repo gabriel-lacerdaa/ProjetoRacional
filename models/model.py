@@ -60,5 +60,6 @@ class FolhaDePonto(db.Model):
 class Configuracoes(db.Model):
     __tablename__= 'configuracoes'
     id = db.Column(db.Integer, primary_key=True)
+    descricao = db.Column(db.String(255), nullable=False)
     valor_salario_dia = db.Column(db.Float, nullable=False)
 
