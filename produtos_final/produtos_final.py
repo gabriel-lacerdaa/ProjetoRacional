@@ -49,6 +49,7 @@ def salvarEdicao():
     produto.frasco_id = form.frasco_id.data
     produto.fita_id = form.fita_id.data
     produto.cliche_id = form.cliche_id.data
+    produto.tempo_de_producao = form.tempo_de_producao.data
     db.session.add(produto)
     db.session.commit()
     return redirect(url_for('produtos.allProducts'))
@@ -88,7 +89,8 @@ def newProduct():
         flash('É necessário informar um Frasco, Fita e Clichê para inserir um novo Produto!!')
         return redirect(url_for('produtos.novoProduto', erro=True))
     produto = Produtos(nome=form.nome.data, codigo=form.codigo.data, fita_id=form.fita_id.data, 
-                       frasco_id=form.frasco_id.data, cliche_id=form.cliche_id.data)
+                       frasco_id=form.frasco_id.data, cliche_id=form.cliche_id.data,
+                       tempo_de_producao=form.tempo_de_producao.data)
     db.session.add(produto)
     db.session.commit()
     return redirect(url_for('produtos.allProducts'))

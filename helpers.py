@@ -19,7 +19,7 @@ class FormularioFita(FlaskForm):
     salvar = SubmitField('Salvar')
 
 class FormularioCliche(FlaskForm):
-    codigo_interno = StringField('Cód Interno',  [validators.DataRequired(), validators.Length(min=5, max=50)], render_kw={'autocomplete': 'off'})
+    codigo_interno = StringField('Cód Interno',  [validators.DataRequired(), validators.Length(min=1, max=50)], render_kw={'autocomplete': 'off'})
     descricao = StringField('Descrição',  [validators.DataRequired(), validators.Length(min=5, max=255)], render_kw={'autocomplete': 'off'})
     salvar = SubmitField('Salvar')
 
@@ -32,6 +32,7 @@ class FormularioProdutoFinal(FlaskForm):
     fita_id = SelectField('Fita', [validators.DataRequired()], coerce=int)
     # Campo de seleção para cliche_id
     cliche_id = SelectField('Clichê', [validators.DataRequired()], coerce=int)
+    tempo_de_producao = IntegerField('Tempo de produção', [validators.DataRequired(), validators.NumberRange(min=1, max=20)], render_kw={'autocomplete': 'off'})
     salvar = SubmitField('Salvar')
 
 class FormularioFuncionarios(FlaskForm):

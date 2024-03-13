@@ -23,6 +23,7 @@ class Produtos(db.Model):
     frasco_id = db.Column(db.Integer, nullable=False)
     fita_id = db.Column(db.Integer, nullable=False)
     cliche_id = db.Column(db.Integer, nullable=False)
+    tempo_de_producao = db.Column(db.Integer, nullable=False)
 
 
 

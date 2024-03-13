@@ -22,6 +22,7 @@
           <th scope="col">Frasco_ID</th>
           <th scope="col">Fita_ID</th>
           <th scope="col">Cliche_ID</th>
+          <th scope="col">Tempo de prod</th>
         </tr>
       </thead>
       <tbody>
@@ -33,6 +34,7 @@
           <td>{{ produto.frasco_id }}</td>
           <td>{{ produto.fita_id }}</td>
           <td>{{ produto.cliche_id }}</td>
+          <td>{{ produto.tempo_de_producao }}</td>
           <td>
             <a href="{{ url_for('produtos.edit', id=produto.id) }}" type="button" class="btn btn-outline-primary">Editar</a>
             <a href="{{ url_for('produtos.delete', id=produto.id) }}" type="button" class="btn btn-outline-danger">Deletar</a>
