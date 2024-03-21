@@ -76,8 +76,7 @@ def calcularSalario():
         .filter(func.extract('year', FolhaDePonto.data) == ano) \
         .group_by(Funcionarios.id) \
         .all()
-        print(salarios)
-        return render_template('salario_calculado.html', salarios=salarios)
+        return render_template('salario_calculado.html', salarios=salarios, valor_salario_dia=valor_salario_dia)
     except Exception as e:
         flash(f'Erro ao calcular salário: {str(e)}')
         return redirect(url_for('folha_de_ponto.allPontos', erro=True))
