@@ -24,7 +24,7 @@ class Produtos(db.Model):
     fita_id = db.Column(db.Integer, nullable=False)
     cliche_id = db.Column(db.Integer, nullable=False)
     tempo_de_producao = db.Column(db.Integer, nullable=False)
-
+    pedidos = db.relationship("Pedidos", back_populates='produto')
 
 
 class Frascos(db.Model):
@@ -64,3 +64,12 @@ class Configuracoes(db.Model):
     descricao = db.Column(db.String(255), nullable=False)
     valor_salario_dia = db.Column(db.Float, nullable=False)
 
+
+class Pedidos(db.Model):
+    __tablename__ = 'pedidos'
+    id = db.Column(db.Integer, primary_key=True)
+    numero = db.Column(db.Integer, nullable=False)
+    quantidade = db.Column(db.Integer, nullable=False)
+    data_do_pedido = db.Column(db.Date)
+    id_produto = db.Column(db.Integer, db.ForeignKey('produtos_finais.id'))
+    produto = db.relationship("Produtos", back_populates="pedidos")

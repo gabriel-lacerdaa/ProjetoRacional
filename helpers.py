@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, SubmitField, FloatField, SelectField, PasswordField, BooleanField, IntegerField, MonthField
+from wtforms import StringField, validators, SubmitField, FloatField, SelectField, PasswordField, BooleanField, IntegerField, MonthField, DateField
 
 
 class FormularioLogin(FlaskForm):
@@ -58,4 +58,12 @@ class FormularioCalcularSalario(FlaskForm):
 class FormularioConfiguracao(FlaskForm):
     descricao = StringField('Descrição',  [validators.DataRequired(), validators.Length(min=8, max=255)], render_kw={'autocomplete': 'off'})
     valor_salario_dia = FloatField('Valor salario diário', [validators.DataRequired(), validators.NumberRange(min=50, max=150)], render_kw={'autocomplete': 'off'})
+    salvar = SubmitField('Salvar')
+
+
+class FormularioPedido(FlaskForm):
+    numero = IntegerField('Numero', [validators.DataRequired()], render_kw={'autocomplete': 'off'})
+    id_produto = SelectField('Produto', [validators.DataRequired()], coerce=int)
+    quantidade = IntegerField('Quantidade', [validators.DataRequired()], render_kw={'autocomplete': 'off'})
+    data_pedido = DateField('Data do pedido', [validators.DataRequired()])
     salvar = SubmitField('Salvar')

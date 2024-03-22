@@ -44,6 +44,14 @@ def montarListaDeFuncionarios():
         listaFuncionarios.append((funcionario.id, f'{funcionario.nome} / {funcionario.CPF}'))
     return listaFuncionarios
 
+
+def montarListaDeProdutos():
+    produtos = Produtos.query.order_by(Produtos.id).all()
+    lista_produtos = [(0, '--Escolha um Produto--')]
+    for p in produtos:
+        lista_produtos.append((p.id, f'{p.nome} / {p.codigo}' ))
+    return lista_produtos
+
 def verificarDependentesFrasco(frasco_id):
     produtos = Produtos.query.filter_by(frasco_id=frasco_id).first()
     if produtos:

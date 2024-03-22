@@ -1,0 +1,41 @@
+{% extends 'template_principal.html' %}
+
+{% block conteudo %}
+
+<div class="conteiner">
+    <form action="#" method="post">
+        {{ form.csrf_token() }}
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.numero.label(class="form-label") }}
+                {{ form.numero(class="form-control") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                <!-- {{ form.id_produto.label(class="form-label") }}
+                {{ form.id_produto(class="form-select-sm") }}    -->
+
+                {{ form.id_produto(class="form-select form-select-sm", style="font-weight: bold;") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.quantidade.label(class="form-label") }}
+                {{ form.quantidade(class="form-control") }}   
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.data_pedido.label(class="form-label") }}
+                {{ form.data_pedido(class="form-control") }}   
+            </div>
+        </div>
+        <div style="margin-top: 10px;">
+            <a href="{{ url_for('pedidos.allOrders') }}" type="button" class="btn btn-danger">Cancelar</a>
+            {{ form.salvar(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+
+{% endblock %}

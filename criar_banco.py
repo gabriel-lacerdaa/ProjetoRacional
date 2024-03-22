@@ -88,6 +88,16 @@ cursor.execute("""
 	valor_salario_dia float,
 	constraint pk_configuracoes primary key(id))
 """)
+cursor.execute("""
+    CREATE TABLE if not EXISTS pedidos(
+	id int auto_increment,
+	numero int not null,
+	id_produto int not null,
+	quantidade int not null,
+	data_do_pedido date,
+	constraint pk_pedido primary key(id) ,
+	constraint fk_produtos foreign key(id_produto) references produtos_finais(id))
+""")
 
 
 
