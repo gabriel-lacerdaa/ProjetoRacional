@@ -47,6 +47,7 @@ class FormularioFuncionarios(FlaskForm):
 class FormularioPonto(FlaskForm):
     id_funcionario = SelectField('Funcionario', [validators.DataRequired()], coerce=int)
     horas = IntegerField('Horas trabalhadas', [validators.DataRequired(), validators.NumberRange(min=1, max=9)], render_kw={'autocomplete': 'off'})
+    data = DateField("Data", [validators.DataRequired()])
     salvar = SubmitField('Salvar')
 
 

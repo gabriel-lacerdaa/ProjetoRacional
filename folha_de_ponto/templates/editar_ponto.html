@@ -1,0 +1,25 @@
+{% extends 'template_principal.html' %}
+
+{% block conteudo %}
+
+<div class="container">
+    <h2>Editar Ponto</h2>
+    <form action="#" method="post">
+        {{ form.csrf_token() }}
+
+        <div class="form-group">
+            <div class="col-md-5">
+                {{ form.data.label(class="form-label") }}
+                {{ form.data(class="form-control") }}
+
+            </div>
+        </div>
+        <div class="buttons">
+            {{form.salvar(class="btn btn-success")}}
+            <a href="{{ url_for('folha_de_ponto.allPontos') }}" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

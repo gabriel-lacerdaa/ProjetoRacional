@@ -2,7 +2,7 @@ from flask import Blueprint, request, redirect, url_for, render_template, sessio
 from models.model import FolhaDePonto, Funcionarios
 from utils import verificarSeEstaLogado, montarListaDeFuncionarios, buscarValorDoSalarioPagoPorDia
 from helpers import FormularioPonto, FormularioCalcularSalario
-from datetime import date
+from datetime import date, datetime
 from extensions import db
 from sqlalchemy import func
 
@@ -22,16 +22,25 @@ def verificar_autenticacao():
 
 @folha_de_ponto_blueprint.route('/folha_de_ponto')
 def allPontos():
-
-    mes_ano = request.args.get('mes_ano')
-    mes = mes_ano[5:] if mes_ano else date.today().month
-    #Transformando o int para remover os zeros a esquerda
-    mes = int(mes)
-    form_calcular = FormularioCalcularSalario()
-    folha_de_ponto = db.session.query(FolhaDePonto, Funcionarios)\
-        .join(Funcionarios).filter(func.extract('month', FolhaDePonto.data) == mes)\
-        .order_by(FolhaDePonto.id.desc()).all()
-    return render_template('folha_de_ponto.html', form=form_calcular, folha_de_ponto=folha_de_ponto, erro=request.args.get('erro'))
+    try:
+        mes_ano_str = request.args.get('mes_ano')
+        mes_ano = datetime.strptime(mes_ano_str, "%Y-%m") if mes_ano_str else datetime.now()
+        mes = mes_ano_str[5:] if mes_ano_str else date.today().month
+        ano = mes_ano_str[:4] if mes_ano_str else date.today().year
+        #Transformando o int para remover os zeros a esquerda
+        mes = int(mes)
+        ano = int(ano)
+        form_calcular = FormularioCalcularSalario(mes_ano=mes_ano)
+        folha_de_ponto = db.session.query(FolhaDePonto, Funcionarios)\
+            .join(Funcionarios).filter((func.extract('month', FolhaDePonto.data) == mes), \
+                                    (func.extract('year', FolhaDePonto.data) == ano))\
+            .order_by(FolhaDePonto.id.desc()).all()
+        if len(folha_de_ponto) == 0:
+            flash('Nenhum ponto encontrado!')
+        return render_template('folha_de_ponto.html', form=form_calcular, folha_de_ponto=folha_de_ponto, erro=request.args.get('erro'))
+    except:
+        flash('Erro ao buscar pontos')
+        return render_template('folha_de_ponto.html', erro=request.args.get('erro'))
 
 
 @folha_de_ponto_blueprint.route('/folha_de_ponto/novo')
@@ -88,3 +97,9 @@ def deletePonto():
     FolhaDePonto.query.filter_by(id=request.args.get('id')).delete()
     db.session.commit()
     return redirect(url_for('folha_de_ponto.allPontos'))
+
+
+@folha_de_ponto_blueprint.route('/folha_de_ponto/editar')
+def editPonto():
+    form = FormularioPonto()
+    return render_template("editar_ponto.html", form=form)
