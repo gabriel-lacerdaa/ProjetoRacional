@@ -63,7 +63,7 @@ class FormularioConfiguracao(FlaskForm):
 
 
 class FormularioPedido(FlaskForm):
-    numero = IntegerField('Numero', [validators.DataRequired()], render_kw={'autocomplete': 'off'})
+    numero_nfe = IntegerField('Número da NFe', [validators.DataRequired()], render_kw={'autocomplete': 'off'})
     id_produto = SelectField('Produto', [validators.DataRequired()], coerce=int)
     quantidade = IntegerField('Quantidade', [validators.DataRequired()], render_kw={'autocomplete': 'off'})
     data_pedido = DateField('Data do pedido', [validators.DataRequired()])

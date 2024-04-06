@@ -3,12 +3,12 @@
 {% block conteudo %}
 
 <div class="conteiner">
-    <form action="#" method="post">
+    <form action="{{ url_for('pedidos.saveOrder') }}" method="post">
         {{ form.csrf_token() }}
         <div class="form-group">
             <div class="col-md-5">
-                {{ form.numero.label(class="form-label") }}
-                {{ form.numero(class="form-control") }}
+                {{ form.numero_nfe.label(class="form-label") }}
+                {{ form.numero_nfe(class="form-control") }}
             </div>
         </div>
         <div class="form-group">

@@ -68,7 +68,7 @@ class Configuracoes(db.Model):
 class Pedidos(db.Model):
     __tablename__ = 'pedidos'
     id = db.Column(db.Integer, primary_key=True)
-    numero = db.Column(db.Integer, nullable=False)
+    numero_nfe = db.Column(db.Integer, nullable=False)
     quantidade = db.Column(db.Integer, nullable=False)
     data_do_pedido = db.Column(db.Date)
     id_produto = db.Column(db.Integer, db.ForeignKey('produtos_finais.id'))
