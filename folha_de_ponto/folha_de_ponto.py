@@ -101,5 +101,31 @@ def deletePonto():
 
 @folha_de_ponto_blueprint.route('/folha_de_ponto/editar')
 def editPonto():
+    id_ponto = request.args.get('id')
+    ponto = FolhaDePonto.query.filter_by(id=id_ponto).first()
     form = FormularioPonto()
-    return render_template("editar_ponto.html", form=form)
+    form.process(obj=ponto)
+    form.id_funcionario.choices = montarListaDeFuncionarios(ponto.id_funcionario)
+    return render_template("editar_ponto.html", form=form, id=ponto.id)
+
+@folha_de_ponto_blueprint.route('/folha_de_ponto/editar/salvar', methods=['POST'])
+def saveEditPonto():
+    try:
+        form = FormularioPonto(request.form)
+        id = request.form['id']
+        if (form.data.data > date.today()):
+            flash('Não é possível escolher uma data superior a de hoje!!')
+            return redirect(url_for('folha_de_ponto.allPontos', erro=True)) 
+        
+        ponto = FolhaDePonto.query.filter_by(id=id).first()
+        ponto.id_funcionario = form.id_funcionario.data
+        ponto.data = form.data.data
+        ponto.horas = form.horas.data
+
+        db.session.add(ponto)
+        db.session.commit()
+
+        return redirect(url_for('folha_de_ponto.allPontos'))    
+    except:
+        return redirect(url_for('folha_de_ponto.allPontos', erro=True)) 
+    

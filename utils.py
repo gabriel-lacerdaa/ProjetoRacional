@@ -37,9 +37,17 @@ def verificarDependentesFita(fita_id):
         return False
 
 
-def montarListaDeFuncionarios():
-    funcionarios = db.session.query(Funcionarios).filter(Funcionarios.status == 'A').order_by(Funcionarios.id).all()
-    listaFuncionarios = [(0, '--Escolha um funcionario--')]
+def montarListaDeFuncionarios(id_funcionario=0):
+    if id_funcionario:
+        f = Funcionarios.query.filter_by(id=id_funcionario).first()
+        listaFuncionarios = [(id_funcionario, f'{f.nome} / {f.CPF}')]
+        funcionarios = db.session.query(Funcionarios).filter(Funcionarios.status == 'A', \
+                     Funcionarios.id != id_funcionario).order_by(Funcionarios.id).all()
+    else:
+        listaFuncionarios = [(0, '--Escolha um funcionario--')]
+        funcionarios = db.session.query(Funcionarios).filter(Funcionarios.status == 'A').order_by(Funcionarios.id).all()
+
+    
     for funcionario in funcionarios:
         listaFuncionarios.append((funcionario.id, f'{funcionario.nome} / {funcionario.CPF}'))
     return listaFuncionarios
