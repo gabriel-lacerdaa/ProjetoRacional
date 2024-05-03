@@ -6,10 +6,10 @@
 			<div>
 				<input type="hidden" name="proxima_url" value="{{ proxima_url }}">
 					{{ form.usuario.label() }}
-					{{ form.usuario() }}
+					{{ form.usuario(id="usuario") }}
 
 					{{ form.senha.label() }}
-					{{ form.senha() }}
+					{{ form.senha(id="password") }}
 				</div>
 			<button type="submit">Enviar</button>
 		</form>
