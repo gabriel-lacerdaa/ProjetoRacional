@@ -26,7 +26,7 @@
                         <td>{{ pedido.quantidade }}</td>
                         <td>{{ pedido.data_do_pedido }}</td>
                         <td>
-                            <a href="#" class="btn btn-outline-primary">Editar</a>
+                            <a href="{{ url_for('pedidos.editOrder', id=pedido.id) }}" class="btn btn-outline-primary">Editar</a>
                             <a href="{{ url_for('pedidos.deleteOrder', id=pedido.id) }}" class="btn btn-outline-danger">Deletar</a>
                         </td>
                     </tr>

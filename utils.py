@@ -53,11 +53,12 @@ def montarListaDeFuncionarios(id_funcionario=0):
     return listaFuncionarios
 
 
-def montarListaDeProdutos():
+def montarListaDeProdutos(label_inicial, id=0):
+    lista_produtos = [(id, label_inicial)]
     produtos = Produtos.query.order_by(Produtos.id).all()
-    lista_produtos = [(0, '--Escolha um Produto--')]
     for p in produtos:
-        lista_produtos.append((p.id, f'{p.nome} / {p.codigo}' ))
+        if p.id != id:
+            lista_produtos.append((p.id, f'{p.nome} / {p.codigo}' ))
     return lista_produtos
 
 def verificarDependentesFrasco(frasco_id):
