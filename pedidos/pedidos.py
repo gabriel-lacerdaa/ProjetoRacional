@@ -3,6 +3,7 @@ from models.model import Pedidos, Produtos
 from extensions import db
 from helpers import FormularioPedido
 from utils import montarListaDeProdutos
+from sqlalchemy import func
 
 pedidos_blueprint = Blueprint('pedidos', __name__, template_folder='templates')
 
@@ -80,3 +81,13 @@ def saveEditOrder():
     except Exception as e:
         flash(f'Erro ao salvar edição do Pedido: {e}')
         return redirect(url_for('pedidos.allOrders', error=True))
+
+
+@pedidos_blueprint.route('/pedidos/calcular')
+def calcularProducao():
+    pedidos = db.session.query(Pedidos.id, Pedidos.numero_nfe,\
+    Produtos.nome, Produtos.tempo_de_producao, Pedidos.quantidade, Pedidos.data_do_pedido, \
+    (func.round(((Produtos.tempo_de_producao * Pedidos.quantidade) / 3600)/8, 0)).label('tempo_de_producao_dias')) \
+        .join(Produtos).all()
+    
+    return render_template('pedidos_calculado.html', pedidos=pedidos)

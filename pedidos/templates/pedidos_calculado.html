@@ -2,9 +2,9 @@
 
 {% block conteudo %}
     <div class="conteiner">
-        <h2>Pedidos</h2>
-        <a href="{{ url_for('pedidos.newOrder') }}" class="btn btn-success">Novo Pedido</a>
-        <a href="{{ url_for('pedidos.calcularProducao') }}" class="btn btn-info">Calcular</a>
+        <h2>Tempo de produção dos Pedidos</h2>
+        <p>Calculo: (<strong>Quantidade</strong> X <strong>Tempo de Produção</strong>) / <strong>8</strong>(quantidade de horas trabalhadas em um dia) </p>
+        <a href="{{ url_for('pedidos.allOrders') }}" class="btn btn-primary">Voltar</a>
         <div class="table-responsive">
             <table class="table table-sm table-striped">
                 <thead>
@@ -12,9 +12,9 @@
                         <th>ID</th>
                         <th>Número NFe</th>
                         <th>Produto</th>
+                        <th>Tempo de produção(unidade)</th>
                         <th>Quantidade</th>
-                        <th>Data pedido</th>
-                        <th>Operações</th>
+                        <th>Tempo de produção total(dias)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,11 +24,8 @@
                         <td>{{ pedido.numero_nfe }}</td>
                         <td>{{ pedido.nome }}</td>
                         <td>{{ pedido.quantidade }}</td>
-                        <td>{{ pedido.data_do_pedido }}</td>
-                        <td>
-                            <a href="{{ url_for('pedidos.editOrder', id=pedido.id) }}" class="btn btn-outline-primary">Editar</a>
-                            <a href="{{ url_for('pedidos.deleteOrder', id=pedido.id) }}" class="btn btn-outline-danger">Deletar</a>
-                        </td>
+                        <td>{{ pedido.tempo_de_producao }}</td>
+                        <td><strong>{{ pedido.tempo_de_producao_dias }}</strong></td>
                     </tr>
                     {% endfor %}
                 </tbody>
