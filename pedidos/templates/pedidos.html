@@ -23,7 +23,7 @@
                         <td>{{ pedido.id }}</td>
                         <td>{{ pedido.numero_nfe }}</td>
                         <td>{{ pedido.nome }}</td>
-                        <td>{{ pedido.quantidade }}</td>
+                        <td>{{ pedido.quantidade | format_number }}</td>
                         <td>{{ pedido.data_do_pedido }}</td>
                         <td>
                             <a href="{{ url_for('pedidos.editOrder', id=pedido.id) }}" class="btn btn-outline-primary">Editar</a>

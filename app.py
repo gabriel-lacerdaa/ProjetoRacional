@@ -12,6 +12,7 @@ from folha_de_ponto.folha_de_ponto import folha_de_ponto_blueprint
 from configuracoes.configuracoes import configuracoes_blueprint
 from pedidos.pedidos import pedidos_blueprint
 from extensions import db
+import locale
 
 app = Flask(__name__)
 app.config.from_pyfile('configs.py')
@@ -28,6 +29,16 @@ app.register_blueprint(funcionarios_blueprint)
 app.register_blueprint(folha_de_ponto_blueprint)
 app.register_blueprint(configuracoes_blueprint)
 app.register_blueprint(pedidos_blueprint)
+
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+
+@app.template_filter('format_number')
+def format_number(value):
+    return locale.format_string("%d", value, grouping=True)
+
+@app.template_filter('format_currency')
+def format_currency(value):
+    return locale.currency(value, grouping=True)
 
 if __name__ == "__main__":
     app.run(debug=True)

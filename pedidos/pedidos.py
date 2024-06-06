@@ -4,8 +4,10 @@ from extensions import db
 from helpers import FormularioPedido
 from utils import montarListaDeProdutos
 from sqlalchemy import func
+import locale
 
 pedidos_blueprint = Blueprint('pedidos', __name__, template_folder='templates')
+
 
 @pedidos_blueprint.route('/pedidos')
 def allOrders():

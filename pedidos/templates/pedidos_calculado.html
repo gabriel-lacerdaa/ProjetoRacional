@@ -23,8 +23,8 @@
                         <td>{{ pedido.id }}</td>
                         <td>{{ pedido.numero_nfe }}</td>
                         <td>{{ pedido.nome }}</td>
-                        <td>{{ pedido.quantidade }}</td>
                         <td>{{ pedido.tempo_de_producao }}</td>
+                        <td>{{ pedido.quantidade | format_number }}</td>
                         <td><strong>{{ pedido.tempo_de_producao_dias }}</strong></td>
                     </tr>
                     {% endfor %}
