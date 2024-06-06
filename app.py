@@ -30,7 +30,10 @@ app.register_blueprint(folha_de_ponto_blueprint)
 app.register_blueprint(configuracoes_blueprint)
 app.register_blueprint(pedidos_blueprint)
 
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+try:
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+except locale.Error:
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Use uma localidade padrão se a desejada não estiver disponível
 
 @app.template_filter('format_number')
 def format_number(value):
