@@ -29,5 +29,18 @@ app.register_blueprint(folha_de_ponto_blueprint)
 app.register_blueprint(configuracoes_blueprint)
 app.register_blueprint(pedidos_blueprint)
 
+@app.template_filter('format_number')
+def format_number(value):
+    return f"{value:,}".replace(",", ".")
+
+
+def format_currency(value):
+    """Formata o valor como moeda (R$)."""
+    return f"R$ {value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+@app.template_filter('format_currency')
+def format_currency_filter(value):
+    return format_currency(value)
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -19,7 +19,7 @@
             {% for funcionario in salarios %}
             <tr>
                 <td>{{ funcionario.nome }}</td>
-                <td>{{ funcionario.salario }}</td>
+                <td>{{ funcionario.salario | format_currency }}</td>
                 <td>{{ funcionario.horas_trabalhadas }}</td>
                 <td>{{ funcionario.dias_trabalhados }}</td>
                 <td>{{ funcionario.vt }}</td>

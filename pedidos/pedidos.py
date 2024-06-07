@@ -1,11 +1,23 @@
-from flask import Blueprint, request, url_for, redirect, render_template, flash
+from flask import Blueprint, request, url_for, redirect, render_template, flash, session
 from models.model import Pedidos, Produtos
 from extensions import db
 from helpers import FormularioPedido
-from utils import montarListaDeProdutos
+from utils import montarListaDeProdutos, verificarSeEstaLogado
 from sqlalchemy import func
+import locale
+
 
 pedidos_blueprint = Blueprint('pedidos', __name__, template_folder='templates')
+
+@pedidos_blueprint.before_request
+def verificar_autenticacao():
+    if (session["isAdmin"] == 0):
+        return redirect(url_for('login.logout'))
+
+    if not verificarSeEstaLogado():
+        # Redirecionar para a página de login
+        return redirect(url_for('login.login', proxima=request.url))
+
 
 @pedidos_blueprint.route('/pedidos')
 def allOrders():

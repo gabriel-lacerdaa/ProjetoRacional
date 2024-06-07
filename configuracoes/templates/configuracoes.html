@@ -20,7 +20,7 @@
             <tr>
                <td>{{ config.id }}</td> 
                <td>{{ config.descricao }}</td> 
-               <td>{{ config.valor_salario_dia }}</td> 
+               <td>{{ config.valor_salario_dia | format_currency }}</td> 
                <td>
                 <a href="{{ url_for('configuracoes.editConfig', id=config.id) }}" class="btn btn-outline-primary">Editar</a>
                </td>
